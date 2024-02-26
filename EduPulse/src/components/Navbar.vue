@@ -14,7 +14,7 @@
           </DisclosureButton>
         </div>
         <div
-          class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
+          class="flex flex-3 items-center justify-center sm:items-stretch sm:justify-start"
         >
           <div class="flex flex-shrink-0 items-center">
             <img
@@ -23,13 +23,15 @@
               alt="Your Company"
             />
           </div>
+          
+        </div>
+        <div class="flex flex-6 items-center justify-center sm:items-stretch sm:justify-start ">
           <div class="hidden sm:ml-6 sm:block">
-            <div class="flex space-x-4">
+            <div class="flex space-x-16">
               <a
                 v-for="item in navigation"
                 v-on:click="!item.current"
                 :key="item.name"
-                :href="item.href"
                 :class="[
                   item.current
                     ? 'bg-gray-900 text-white'
@@ -38,13 +40,13 @@
                 ]"
                 :aria-current="item.current ? 'page' : undefined"
                 
-                >{{ item.name }}</a
+                ><router-link :to="item.href" :class="text-gray-500" :active-class="text-gray-500" :exact-active-class="text-gray-500"> {{ item.name }}</router-link></a
               >
             </div>
           </div>
         </div>
         <div
-          class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
+          class="flex flex-3 absolute inset-y-0 right-0  items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
         >
           
 
@@ -145,10 +147,10 @@ import {
 
 
 const navigation = [
-  { name: "Home", href: "#", current: false },
-  { name: "Course", href: "#", current: false },
+  { name: "Home", href: "/", current: false },
+  { name: "Course", href: "/about", current: false },
   { name: "แจ้งปัญหา", href: "#", current: false },
   { name: "โปรไฟล์", href: "#", current: false },
-  { name: "Blog", href: "#", current: false }
+  { name: "คอร์สของฉัน", href: "#", current: false }
 ];
 </script>
