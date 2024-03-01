@@ -1,5 +1,6 @@
 <template>
-  <Disclosure as="nav" class="bg-white w-full px-0" v-slot="{ open }">
+  <header>
+    <Disclosure as="nav" class="bg-white w-full px-0" v-slot="{ open }">
     <div class=" sm:px-6 lg:px-8">
       <div class="relative flex h-16 items-center justify-between">
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -132,6 +133,7 @@
       </div>
     </DisclosurePanel>
   </Disclosure>
+  </header>
 </template>
 
 <script setup>
@@ -148,8 +150,8 @@ import {
 
 const navigation = [
   { name: "Home", href: "/", current: false },
-  { name: "Course", href: "/about", current: false },
-  { name: "แจ้งปัญหา", href: "#", current: false },
+  { name: "Course", href: "/course", current: false },
+  { name: "แจ้งปัญหา", href: "/test", current: false },
   { name: "โปรไฟล์", href: "#", current: false },
   { name: "คอร์สของฉัน", href: "#", current: false }
 ];
