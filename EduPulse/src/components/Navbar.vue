@@ -152,7 +152,7 @@ const navigation = [
   { name: "Home", href: "/", current: false },
   { name: "Course", href: "/course", current: false },
   { name: "แจ้งปัญหา", href: "/report", current: false },
-  { name: "โปรไฟล์", href: "#", current: false },
-  { name: "คอร์สของฉัน", href: "#", current: false }
+  { name: "โปรไฟล์", href: "/profile", current: false },
+  { name: "คอร์สของฉัน", href: "/mycourse", current: false }
 ];
 </script>

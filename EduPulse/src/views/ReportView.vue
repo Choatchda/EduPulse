@@ -13,9 +13,9 @@
           <h1 class="max-w-2xl text-5xl font-bold text-red-400">แจ้งปัญหา</h1>
         </div>
       </section>
-      <section class="mt-6">
+      <section class="mt-6 flex items-center justify-center">
         <div
-          class="text-center justify-center items-center p-4"
+          class="text-center justify-center items-center p-4 bg-white w-3/4 shadow-lg rounded-lg"
         >
           <div class="sm:col-span-4 mb-4">
             <label
@@ -44,8 +44,8 @@
                 id="about"
                 name="about"
                 rows="3"
-                class="w-1/4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
+                class="w-1/4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
+                ></textarea>
             </div>
           </div>
           <button
