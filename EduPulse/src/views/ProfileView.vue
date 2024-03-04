@@ -34,10 +34,8 @@
             <div
               class="bg-gray-200 w-1/2 items-center justify-center rounded-lg shadow-lg p-3"
             >
-              <div class="flex flex-row justify-around mb-4">
-                <h6 class="text-lg font-semibold">ชื่อ</h6>
-                <h6 class="text-lg font-semibold">นามสกุล</h6>
-              </div>
+                <h6 class="text-lg font-semibold mb-4">ชื่อ</h6>
+                <h6 class="text-lg font-semibold mb-4">นามสกุล</h6>
               <h6 class="text-lg font-semibold mb-4">อีเมล</h6>
               <h6 class="text-lg font-semibold">รหัสผ่าน</h6>
             </div>

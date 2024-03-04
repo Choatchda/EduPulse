@@ -29,6 +29,7 @@
         class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white  rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300"
         style="background: var(--bg--gradient);"
       >
+      <router-link to="/detailcourse">
         <svg
           class="rtl:rotate-180 w-full h-5"
           aria-hidden="true"
@@ -44,6 +45,8 @@
             d="M1 5h12m0 0L9 1m4 4L9 9"
           />
         </svg>
+      </router-link>
+        
         </button>
       </div>
      
@@ -52,4 +55,5 @@
 </template>
 
 <script setup>
+
 </script>
