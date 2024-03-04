@@ -68,7 +68,7 @@
             <div class="text-gray-600 text-center">
               <p>
                 Already have an account?
-                <a href="/signup" class="text-blue-500">Sign up</a>.
+                <router-link to="/signup" class="text-blue-500">Sign up</router-link>.
               </p>
             </div>
           </div>

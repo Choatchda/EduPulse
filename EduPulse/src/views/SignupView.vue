@@ -139,7 +139,7 @@
       <div class="text-gray-600 text-center">
             <p>
               Already have an account?
-              <a href="/signup" class="text-blue-500">Sign in</a>.
+              <router-link to="/signin" class="text-blue-500">Sign in</router-link>.
             </p>
           </div>
 
