@@ -7,11 +7,14 @@
           class="p-4 items-center justify-center text-center bg-white w-3/4 shadow-lg rounded-lg"
         >
           <div class="flex items-end justify-end">
-            <button
-              class="inline-flex items-center justify-center px-4 py-1 text-base font-medium text-center text-black rounded-lg focus:ring-4 focus:ring-gray-200 bg-slate-100 outline outline-offset-2 outline-gray-200"
-            >
-              Edit
-            </button>
+            
+              <router-link
+                to="/editprofile"
+                class="inline-flex items-center justify-center px-4 py-1 text-base font-medium text-center text-black rounded-lg focus:ring-4 focus:ring-gray-200 bg-slate-100 outline outline-offset-2 outline-gray-200"
+              >
+                Edit
+              </router-link>
+            
           </div>
           <div class="flex justify-center items-center my-3">
             <div class="hidden lg:flex justify-center">
