@@ -19,40 +19,62 @@
         <div
           class="w-1/2 h-1/2 mx-auto rounded-lg bg-gray-300 bg-opacity-20 p-4 flex justify-center items-center flex-col"
         >
-           <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-      <form class="space-y-8" >
-        <div>
-          <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
-          <div class="mt-2">
-            <input id="email" name="email" type="email" autocomplete="email" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-          </div>
-        </div>
+          <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            <form class="space-y-8">
+              <div>
+                <label
+                  for="email"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Email</label
+                >
+                <div class="mt-2">
+                  <input
+                    type="text"
+                    id="email"
+                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                    required
+                  />
+                </div>
+              </div>
 
-        <div>
-          <div class="flex items-center justify-between">
-            <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-        
-          </div>
-          <div class="mt-2">
-            <input id="password" name="password" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-          </div>
-        </div>
+              <div>
+                <div class="flex items-center justify-between">
+                  <label
+                    for="password"
+                    class="block text-sm font-medium leading-6 text-gray-900"
+                    >Password</label
+                  >
+                </div>
+                <div class="mt-2">
+                  <input
+                    type="text"
+                    id="password"
+                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                    required
+                  />
+                </div>
+              </div>
 
-        <div>
-          <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
-        </div>
-      </form>
+              <div>
+                <button
+                  type="submit"
+                  class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Sign in
+                </button>
+              </div>
+            </form>
 
-          <div class="text-gray-600 text-center">
-            <p>
-              Already have an account?
-              <a href="/signup" class="text-blue-500">Sign up</a>.
-            </p>
+            <div class="text-gray-600 text-center">
+              <p>
+                Already have an account?
+                <a href="/signup" class="text-blue-500">Sign up</a>.
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 

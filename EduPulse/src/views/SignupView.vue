@@ -23,12 +23,12 @@
             >
             <div class="mt-2">
               <input
-                type="text"
-                name="first-name"
-                id="first-name"
-                autocomplete="given-name"
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:border-indigo-500"
-              />
+                    type="text"
+                    id="first_name"
+                    name = "first_name"
+                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                    required
+                  />
             </div>
           </div>
 
@@ -39,13 +39,13 @@
               >Last name</label
             >
             <div class="mt-2">
-              <input
-                type="text"
-                name="last-name"
-                id="last-name"
-                autocomplete="family-name"
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:border-indigo-500"
-              />
+             <input
+                    type="text"
+                    id="last_name"
+                    name = "last_name"
+                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                    required
+                  />
             </div>
           </div>
         </div>
@@ -58,12 +58,12 @@
             >
             <div class="mt-2">
               <input
-                type="number"
-                name="Age"
-                id="Age"
-                autocomplete="given-name"
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:border-indigo-500"
-              />
+                    type="number"
+                    id="age"
+                    name = "age"
+                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                    required
+                  />
             </div>
           </div>
 
@@ -75,12 +75,12 @@
             >
             <div class="mt-2">
               <input
-                type="text"
-                name="Gender"
-                id="Gender"
-                autocomplete="family-name"
-                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:outline-none focus:border-indigo-500"
-              />
+                    type="text"
+                    id="gender"
+                    name = "gender"
+                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                    required
+                  />
             </div>
           </div>
         </div>
@@ -91,13 +91,13 @@
             >Username</label
           >
           <div class="mt-2">
-            <input
-              id="username"
-              name="Username"
-              type="Username"
-              autocomplete="Username"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
+             <input
+                    type="text"
+                    id="username"
+                    name = "username"
+                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                    required
+                  />
           </div>
         </div>
         <div class="sm:col-span-4 mt-6">
@@ -108,12 +108,12 @@
           >
           <div class="mt-2">
             <input
-              id="Password"
-              name="Password"
-              type="Password"
-              autocomplete="Password"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
+                    type="text"
+                    id="password"
+                    name = "password"
+                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                    required
+                  />
           </div>
         </div>
             <div class="sm:col-span-4 mt-6">
@@ -124,12 +124,12 @@
           >
           <div class="mt-2">
             <input
-              id="Confirm Password"
-              name="Confirm Password"
-              type="Confirm Password"
-              autocomplete="Confirm Password"
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            />
+                    type="text"
+                    id="confirm_password"
+                    name = "confirm_password"
+                    class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                    required
+                  />
           </div>
         </div>
         <div class = "flex justify-center items-center">
