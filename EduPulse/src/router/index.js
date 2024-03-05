@@ -48,7 +48,30 @@ const router = createRouter({
       path: '/editprofile',
       name:  'EditProfile',
       component: () => import('../views/EditProfile.vue')
-    }
+    },
+    {
+      path: '/payment',
+      name:  'payment',
+      component: () => import('../views/PaymentPage.vue')
+    },
+    {
+      path: '/Viewadmin',
+      name:  'Viewadmin',
+      component: () => import('../views/CourseAdmin.vue')
+    },
+    {
+      path: '/Addcourse',
+      name:  'Addcourse',
+      component: () => import('../views/AdminAddCourse.vue')
+    },
+    {
+      path: '/Viewproblem',
+      name:  'Viewproblem',
+      component: () => import('../views/AdminProblemView.vue')
+    },
+  
+  
+  
   
   ]
 })
