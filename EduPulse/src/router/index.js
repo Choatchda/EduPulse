@@ -69,6 +69,12 @@ const router = createRouter({
       name:  'Viewproblem',
       component: () => import('../views/AdminProblemView.vue')
     },
+    // {
+    //   path: '/approve',
+    //   name:  'ApprovePayment',
+    //   component: () => import('../views/ApprovePayment.vue')
+    // },
+  
   
   
   
