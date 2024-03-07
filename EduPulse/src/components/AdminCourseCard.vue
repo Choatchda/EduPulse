@@ -41,13 +41,24 @@
         <h2 class="text-2xl font-bold mb-4">Edit Item</h2>
         <form @submit.prevent="submitEditForm">
           <div class="mb-4">
-            <label for="itemName" class="block text-sm font-medium text-gray-600">Item Name</label>
+            <label for="itemName" class="block text-sm font-medium text-gray-600">ชื่อคอร์สเรียน</label>
             <input v-model="editedItemName" type="text" id="itemName" name="itemName" class="mt-1 p-2 border rounded-md w-full" required>
           </div>
           <div class="mb-4">
-            <label for="itemPrice" class="block text-sm font-medium text-gray-600">Item Price</label>
+            <label for="itemPrice" class="block text-sm font-medium text-gray-600">ราคา</label>
             <input v-model="editedItemPrice" type="number" id="itemPrice" name="itemPrice" class="mt-1 p-2 border rounded-md w-full" required>
           </div>
+            <div class="mb-4">
+            <label for="studycourse" class="block text-sm font-medium text-gray-600">กลุ่มวิชา</label>
+            <input v-model="editedstudycourse" type="text" id="studycourse" name="studycourse" class="mt-1 p-2 border rounded-md w-full" required>
+          </div>
+          <div class="mb-4">
+            <label for="teacher" class="block text-sm font-medium text-gray-600">ครูผู้สอน</label>
+            <input v-model="editedstudycourse" type="text" id="teacher" name="teacher" class="mt-1 p-2 border rounded-md w-full" required>
+          </div>
+          
+          
+          
           <div class="mb-4">
             <label class="block text-sm font-medium text-gray-600">Upload Image</label>
             <input type="file" accept="image/*" @change="handleImageUpload" class="mt-1 p-2 border rounded-md w-full">
