@@ -108,11 +108,11 @@
          <div class="flex justify-center flex-col items-center mb-5">
             <h1>อัปโหลดภาพ</h1>
             <span class="text-red-500">รองรับเฉพาะไฟล์ .pdf .jpg .png .jpeg</span>
-            <input type="file" accept="image/*" @change="handleImageUpload" class="ml-11 " />
+            <input type="file" accept="image/*" @change="handleImageUpload" class="ml-11" />
   
          <div v-if="imageUrl" class="mt-6 mr-6">
           <img :src="imageUrl" width="200" height="200" />
-          <button @click="clearImage" class="mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">ลบ</button>
+          <button @click="clearImage"  class="mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">ลบ</button>
         </div>  
       </div>
 
@@ -120,7 +120,7 @@
           <div class="flex justify-center flex-col items-center mb-5">
           <h1>อัปโหลดวิดีโอ</h1>
           <span class="text-red-500">รองรับเฉพาะไฟล์ .mov .mp4</span>
-          <input type="file" @change="handleVideoUpload" accept="video/*" class="ml-11" />
+          <input type="file" accept="video/*" @change="handleVideoUpload" class="ml-11" />
   
         <div v-if="videoUrl" class="mt-6 mr-6">
         <video controls width="200" height="200">
@@ -173,16 +173,7 @@ export default {
     return;
   }
 
-  // Check if the selected file type is allowed
-  if (!allowedTypes.includes(file.type)) {
-    // Reset image-related data
-    this.imageFile = null;
-    this.imageFileName = null;
-    this.imageUrl = null;
-    // Show error message or perform any necessary action
-    alert('Only JPG, PNG, GIF, and PDF files are allowed for image uploads.');
-    return;
-  }
+  
 
   // Set image-related data
   this.imageFile = file;
