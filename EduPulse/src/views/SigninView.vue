@@ -20,7 +20,7 @@
           class="w-1/2 h-1/2 mx-auto rounded-lg bg-gray-300 bg-opacity-20 p-4 flex justify-center items-center flex-col"
         >
           <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form class="space-y-8" @submit.prevent="signIn">
+            <form class="space-y-8" @submit.prevent="submitForm">
               <div>
                 <label
                   for="email"
@@ -76,9 +76,11 @@
   </div>
 </template>
 
-<script>
+<script >
 import axios from "axios";
+import { useRouter } from 'vue-router';
 
+import Swal from 'sweetalert2'
 export default {
   data() {
     return {
@@ -89,23 +91,37 @@ export default {
     };
   },
   methods: {
+    
     async submitForm() {
       try {
+        console.log('here')
         // Send form data to backend
         const response = await axios.post(
-          "http://localhost:3000/signup",
+          "http://localhost:3000/login",
           this.formData
         );
 
         // Optionally handle success response here
-        console.log(response.data);
+        console.log(response.data.userId);
 
         // Clear form after successful submission
         this.formData = {
           email: "",
           password: "",
         };
+      
+        localStorage.setItem("userId", response.data.userId);
+        Swal.fire({
+  title: "Login successful",
+  text: "Welcome back!",
+  icon: "success"
+}).then(() => {
+  window.location.href = "/"; // Replace "/" with the desired URL
+});
+  
+
       } catch (error) {
+        alert(error)
         // Handle error
         console.error("Error submitting form:", error);
       }
@@ -113,3 +129,4 @@ export default {
   },
 };
 </script>
+

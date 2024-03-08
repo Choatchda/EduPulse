@@ -18,22 +18,22 @@
       <section class="mt-6 flex items-center justify-center">
         <!-- First div with Tailwind CSS classes -->
 
-        <div class="justify-center items-center p-4 bg-white w-3/4 shadow-lg rounded-lg justify-center ">
+        <div class="justify-center items-center p-4 bg-white w-3/4 shadow-lg rounded-lg  ">
   <h1 class="text-5xl font-bold text-red-400 text-center mb-8">ปัญหา</h1>
-  <div v-for="(item, index) in mockupData" :key="index" class="justify-center items-center p-4 bg-gray-100 h-36 w-2/3 shadow-lg rounded-lg mx-auto flex-col justify-center pt-12 border border-gray-500 mb-8">
+  <div v-for="(item, index) in mockupData" :key="index" class="justify-center items-center p-4 bg-[#F5F7F9] h-60 w-2/3 shadow-lg rounded-lg mx-auto flex-col justify-center pt-12  border-gray-500 mb-8">
     <div class="flex items-center text-bold">
       <img
         class="h-12 w-12 rounded-full"
         :src="item.image"
         alt=""
       />
-      <label for="courseName" class="text-sm font-bold leading-6 text-gray-900 pl-5">{{ item.name }}</label>
+      <label for="courseName" class="text-base	 font-bold leading-6 text-gray-900 pl-5">{{ item.name }}</label>
     </div>
     <div class="pt-6">
-      <label for="courseName" class="text-sm font-medium leading-6 text-gray-900 pl-5">ปัญหา: {{ item.problem }}</label>
+      <label for="courseName" class="text-base	  font- font-medium leading-6 text-gray-900 pl-5">ปัญหา: {{ item.problem }}</label>
     </div>
     <div class="pt-6">
-      <label for="courseName" class="text-sm font-medium leading-6 text-gray-900 pl-5">คำอธิบายเพิ่มเติม: {{ item.additionalDescription }}</label>
+      <label for="courseName" class="text-base	   font-medium leading-6 text-gray-900 pl-5">คำอธิบายเพิ่มเติม: {{ item.additionalDescription }}</label>
     </div>
   </div>
 </div>

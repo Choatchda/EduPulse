@@ -203,7 +203,7 @@
 
 <script>
 import axios from "axios";
-
+import Swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -221,10 +221,11 @@ export default {
   },
   methods: {
     async submitForm() {
+      console.log('REGISTER')
       try {
         // Send form data to backend
         const response = await axios.post(
-          "http://localhost:3000/signup",
+          "http://localhost:3000/register",
           this.formData
         );
 
@@ -242,6 +243,13 @@ export default {
           password: "",
           confirm_password: "",
         };
+        Swal.fire({
+  title: "Register successful",
+  text: "",
+  icon: "success"
+}).then(() => {
+  window.location.href = "/signin"; // Replace "/" with the desired URL
+});
       } catch (error) {
         // Handle error
         console.error("Error submitting form:", error);

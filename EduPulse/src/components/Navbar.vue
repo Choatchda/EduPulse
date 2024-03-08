@@ -99,13 +99,10 @@
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                   <a
-                    href="#"
-                    :class="[
-                      active ? 'bg-gray-100' : '',
-                      'block px-4 py-2 text-sm text-gray-700',
-                    ]"
-                    >Sign out</a
-                  >
+  href="#"
+  @click.prevent="signOut"
+  class="block px-4 py-2 text-sm text-gray-700"
+>Sign out</a>
                 </MenuItem>
               </MenuItems>
             </transition>
@@ -146,7 +143,10 @@ import {
   MenuItem,
   MenuItems,
 } from "@headlessui/vue";
+import Swal from "sweetalert2";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 
 const navigation = [
   { name: "Home", href: "/", current: false },
@@ -155,4 +155,35 @@ const navigation = [
   { name: "โปรไฟล์", href: "/profile", current: false },
   { name: "คอร์สของฉัน", href: "/mycourse", current: false }
 ];
+
+const signOut = () => {
+  // Clear localStorage
+  localStorage.clear();
+  let timerInterval;
+Swal.fire({
+  title: "Logout successful",
+  html: "I will close in <b></b> milliseconds.",
+  timer: 3000,
+  timerProgressBar: true,
+  didOpen: () => {
+    Swal.showLoading();
+    const timer = Swal.getPopup().querySelector("b");
+    timerInterval = setInterval(() => {
+      timer.textContent = `${Swal.getTimerLeft()}`;
+    }, 100);
+  },
+  willClose: () => {
+    clearInterval(timerInterval);
+  }
+}).then((result) => {
+  /* Read more about handling dismissals below */
+  if (result.dismiss === Swal.DismissReason.timer) {
+    console.log(" was closed by the timer");
+    router.push('/signin')
+  }
+});
+  // Redirect to the sign-in page
+  
+};
 </script>
+

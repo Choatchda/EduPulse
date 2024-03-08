@@ -32,15 +32,19 @@
               />
             </div>
           </div>
-          <h5 class="text-xl font-semibold my-3">Username</h5>
+          <h5 class="text-xl font-semibold my-3">{{ userData && userData.username }}</h5>
           <div class="flex items-center justify-center my-3">
             <div
               class="bg-gray-200 w-1/2 items-center justify-center rounded-lg shadow-lg p-3"
             >
-                <h6 class="text-lg font-semibold mb-4">ชื่อ</h6>
-                <h6 class="text-lg font-semibold mb-4">นามสกุล</h6>
-              <h6 class="text-lg font-semibold mb-4">อีเมล</h6>
-              <h6 class="text-lg font-semibold">รหัสผ่าน</h6>
+                <!-- Replace static content with dynamic data bindings -->
+
+<!-- ... other parts of the template ... -->
+<h6 class="text-lg font-semibold mb-4">ชื่อ : {{ userData && userData.user && userData.user.first_name }}</h6>
+    <h6 class="text-lg font-semibold mb-4">นามสกุล : {{ userData && userData.user && userData.user.last_name }}</h6>
+    <h6 class="text-lg font-semibold mb-4">อีเมล : {{ userData && userData.user && userData.user.email }}</h6>
+
+
             </div>
           </div>
         </div>
@@ -51,9 +55,40 @@
 
 <script>
 import Navbar from "../components/Navbar.vue";
+
 export default {
   components: {
     Navbar: Navbar,
+  },
+  data() {
+    return {
+      userData: null,
+    };
+  },
+  mounted() {
+    const userId = localStorage.getItem("userId");
+    if (userId) {
+      console.log('HERE' + userId)
+      this.fetchUserData(userId);
+    }
+  },
+  methods: {
+    fetchUserData(userId) {
+      // You can replace the following URL with your API endpoint to fetch user data
+      const apiUrl = `http://localhost:3000/user/${userId}`;
+
+      // Make a GET request to the API
+      fetch(apiUrl)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data)
+          this.userData = data;
+          console.log(this.userData) // Update the userData property with the fetched data
+        })
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        });
+    },
   },
 };
 </script>
