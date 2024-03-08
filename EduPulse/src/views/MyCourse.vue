@@ -10,6 +10,8 @@
             <StudyCourseCard 
               v-for="index in 3"
               :key="index"
+              namecourse="วิธีได้ใจอ้าย"
+              pricecourse=1000
             />
           </div>
         </div>

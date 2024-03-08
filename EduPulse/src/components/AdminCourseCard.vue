@@ -10,10 +10,10 @@
 
     <div class="p-4">
       <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900">
-        Noteworthy technology 2021
+        {{ namecourse }}
       </h5>
       <p class="mb-3 font-semibold text-gray-500">
-        ฿400
+        ฿{{ pricecourse }}
       </p>
       <hr class="h-px my-4 border-0 bg-gray-300">
       <div class="flex items-center mb-2 gap-2">
@@ -86,6 +86,11 @@
 
 <script setup>
 import { ref } from 'vue';
+
+defineProps({
+  namecourse: String,
+  pricecourse: Number
+})
 
 const isEditModalOpen = ref(false);
 const editedItemName = ref('');

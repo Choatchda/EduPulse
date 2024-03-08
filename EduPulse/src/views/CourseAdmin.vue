@@ -10,6 +10,8 @@
           <AdminCourseCard 
             v-for="index in 3"
             :key="index"
+            namecourse="ใครอยากเป็นเศรษฐี"
+            pricecourse=599
           />
         </div>
       </div>

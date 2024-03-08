@@ -9,6 +9,7 @@
           placeholder="Search"
           aria-label="Search"
           aria-describedby="button-addon1"
+          v-model="search"
         />
 
         <!--Search button-->
@@ -37,4 +38,12 @@
   </div>
 </template>
 
-<script setup></script>
+<script>
+export default {
+  data() {
+    return {
+      search: ""
+    };
+  },
+}
+</script>

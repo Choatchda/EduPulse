@@ -74,6 +74,11 @@
             <CourseCard 
               v-for="index in 3"
               :key="index"
+              imagecourse="https://tierragamer.com/wp-content/uploads/2023/03/Mashle2tierragamer.webp"
+              numbercourse=6
+              namecourse="'djsjda'"
+              pricecourse=9
+              numberstudent=6
             />
           </div>
       </section>

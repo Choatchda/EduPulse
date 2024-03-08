@@ -3,26 +3,26 @@
     <div class="p-3">
       <img
         class="rounded-lg"
-        src="https://tierragamer.com/wp-content/uploads/2023/03/Mashle2tierragamer.webp"
+        :src=imagecourse
         alt=""
       />
     </div>
     <div class="p-4">
       <div class="text-gray-600 flex align-middle items-center mb-2">
         <font-awesome-icon icon="fa-regular fa-circle-play" />
-        <p class="ml-3">20 lessons</p>
+        <p class="ml-3">{{numbercourse}} lessons</p>
       </div>
       <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900">
-        Noteworthy technology 2021
+        {{namecourse}}
       </h5>
       <p class="mb-3 font-semibold text-orange-500">
-        ฿400
+        {{ pricecourse }}฿
       </p>
       <hr class="h-px my-4 border-0 bg-gray-300">
       <div class="flex align-middle items-center mb-2 justify-between">
         <div class="text-gray-600 flex items-center">
           <font-awesome-icon icon="fa-solid fa-user" class="text-base"/>
-          <p class="text-sm ml-2">412 Students</p>
+          <p class="text-sm ml-2">{{ numberstudent }} Students</p>
         </div>
         <button
         href="#"
@@ -54,6 +54,29 @@
   </div>
 </template>
 
-<script setup>
-
+<script>
+export default {
+  props: {
+    imagecourse: {
+      type: String,
+      default: ""
+    },
+    numbercourse: {
+      type: Number,
+      default: 0,
+    },
+    namecourse: {
+      type: String,
+      default: "",
+    },
+    pricecourse: {
+      type: Number,
+      default: 0
+    },
+    numberstudent: {
+      type: Number,
+      default: 0
+    }
+  }
+}
 </script>

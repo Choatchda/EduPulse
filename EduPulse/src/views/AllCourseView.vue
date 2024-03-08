@@ -1,5 +1,5 @@
 <template>
-  <div id="app" >
+  <div id="app">
     <Navbar />
     <div class="m-10 flex flex-row">
       <div class="basis-3/12">
@@ -7,9 +7,14 @@
       </div>
       <div class="basis-9/12">
         <div class="flex flex-wrap justify-center">
-          <CourseCard 
+          <CourseCard
             v-for="index in 6"
             :key="index"
+            imagecourse="https://tierragamer.com/wp-content/uploads/2023/03/Mashle2tierragamer.webp"
+            numbercourse="6"
+            namecourse="'djsjda'"
+            pricecourse="9"
+            numberstudent="6"
           />
         </div>
       </div>

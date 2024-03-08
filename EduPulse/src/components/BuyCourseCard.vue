@@ -2,7 +2,7 @@
   <div class="w-3/5 bg-white border border-gray-200 rounded-lg shadow-lg m-5">
     <div class="p-4">
       <h1 class="text-xl mb-4 font-bold text-gray-900 text-center">
-        Noteworthy technology 2021
+        {{ nameeachcourse }}
       </h1>
       <div class="flex flex-row justify-between">
         <div class="items-center justify-center text-center">
@@ -19,7 +19,7 @@
         </div>
       </div>
       <hr class="h-px my-4 border-0 bg-gray-300" />
-      <h5 class="text-xl mb-3 font-semibold text-orange-500">฿400</h5>
+      <h5 class="text-xl mb-3 font-semibold text-orange-500">฿{{ priceeachcourse }}</h5>
       <div class=" mb-2">
         <button
           href="#"
@@ -32,4 +32,17 @@
   </div>
 </template>
 
-<script setup></script>
+<script>
+export default {
+  props: {
+    nameeachcourse: {
+      type: String,
+      default: "",
+    },
+    priceeachcourse: {
+      type: Number,
+      default: 0
+    }
+  }
+}
+</script>
