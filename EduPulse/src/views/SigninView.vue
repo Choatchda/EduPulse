@@ -20,17 +20,17 @@
           class="w-1/2 h-1/2 mx-auto rounded-lg bg-gray-300 bg-opacity-20 p-4 flex justify-center items-center flex-col"
         >
           <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form class="space-y-8">
+            <form class="space-y-8" @submit.prevent="signIn">
               <div>
                 <label
                   for="email"
                   class="block text-sm font-medium leading-6 text-gray-900"
-                  >Email</label
-                >
+                >Email</label>
                 <div class="mt-2">
                   <input
-                    type="text"
+                    type="email"
                     id="email"
+                    v-model="formData.email"
                     class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                     required
                   />
@@ -38,17 +38,15 @@
               </div>
 
               <div>
-                <div class="flex items-center justify-between">
-                  <label
-                    for="password"
-                    class="block text-sm font-medium leading-6 text-gray-900"
-                    >Password</label
-                  >
-                </div>
+                <label
+                  for="password"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                >Password</label>
                 <div class="mt-2">
                   <input
-                    type="text"
+                    type="password"
                     id="password"
+                    v-model="formData.password"
                     class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                     required
                   />
@@ -79,11 +77,39 @@
 </template>
 
 <script>
-import Navbar from "../components/Navbar.vue";
+import axios from "axios";
 
 export default {
-  components: {
-    navbar: Navbar,
+  data() {
+    return {
+      formData: {
+        email: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    async submitForm() {
+      try {
+        // Send form data to backend
+        const response = await axios.post(
+          "http://localhost:3000/signup",
+          this.formData
+        );
+
+        // Optionally handle success response here
+        console.log(response.data);
+
+        // Clear form after successful submission
+        this.formData = {
+          email: "",
+          password: "",
+        };
+      } catch (error) {
+        // Handle error
+        console.error("Error submitting form:", error);
+      }
+    },
   },
 };
 </script>
