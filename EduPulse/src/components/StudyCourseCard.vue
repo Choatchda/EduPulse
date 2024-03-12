@@ -3,7 +3,7 @@
       <div class="p-3">
         <img
           class="rounded-lg"
-          src="https://tierragamer.com/wp-content/uploads/2023/03/Mashle2tierragamer.webp"
+          src="https://edupulse-bucket.s3.amazonaws.com/courses/1710251965305-physisc%20for%20beginner.jpg"
           alt=""
         />
       </div>
