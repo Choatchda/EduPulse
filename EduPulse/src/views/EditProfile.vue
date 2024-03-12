@@ -11,7 +11,7 @@
             <h2 class="pl-6 text-3xl font-bold sm:text-xl">Profile</h2>
 
             <div class="grid max-w-2xl mx-auto mt-8">
-              <div class="flex flex-col items-center justify-center space-y-5 sm:flex-row sm:space-y-0">
+              <div class="flex flex-col items-center justify-center space-y-5 sm:flex-row sm:space-y-0 sm:mb-6">
 
                 <!-- Profile picture -->
 
@@ -68,10 +68,13 @@
                     value="xxxxxx" disabled>
                 </div>
 
-                <!-- Submit button -->
-                <div class="flex justify-end">
+                <!-- Submit and Cancel buttons -->
+                <div class="flex justify-between">
                   <button type="submit"
                     class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800">Save</button>
+                  <button type="button"
+                    class="text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+                    @click="cancel">Cancel</button>
                 </div>
 
               </form>
@@ -149,9 +152,10 @@ export default {
           text: 'Failed to update profile. Please try again.',
         });
       }
-
     },
-
-  },
+    cancel() {
+      this.$router.go(-1); // Redirect to the previous page
+    }
+  }
 };
 </script>
