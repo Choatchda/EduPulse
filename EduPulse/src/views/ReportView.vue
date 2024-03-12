@@ -27,8 +27,8 @@
               <div class="mt-2">
                 <input
                   type="text"
-                  v-model="formData.problem"
-                  id="problem"
+                  v-model="formData.title"
+                  id="title"
                   name="problem"
                   class="w-1/4 bg-white border-0 rounded-md shadow-sm ring-1 ring-inset ring-gray-400 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                   placeholder="ปัญหาที่พบ"
@@ -66,7 +66,7 @@
 
 <script>
 import Navbar from "../components/Navbar.vue";
-import axios from "axios"; // Import Axios for making HTTP requests
+import axios from "axios";
 
 export default {
   components: {
@@ -75,8 +75,9 @@ export default {
   data() {
     return {
       formData: {
-        problem: '',
-        description: ''
+        title: '',
+        description: '',
+        createdBy: localStorage.getItem('userId') || '', // Get userId from localStorage
       }
     };
   },
@@ -84,10 +85,11 @@ export default {
     async submitForm() {
       try {
         // Make an HTTP POST request to your backend endpoint
-        const response = await axios.post('', this.formData);
+        const response = await axios.post('http://localhost:3000/problem', this.formData);
 
         // Handle success response
         console.log(response.data); // Log the response data
+        alert('สำเร็จ')
       } catch (error) {
         // Handle error
         console.error('Error submitting form:', error);

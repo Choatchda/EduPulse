@@ -225,7 +225,7 @@ export default {
       try {
         // Send form data to backend
         const response = await axios.post(
-          "http://localhost:3000/register",
+          "http://44.198.58.146:3000/register",
           this.formData
         );
 

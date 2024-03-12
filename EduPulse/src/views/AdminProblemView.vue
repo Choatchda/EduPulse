@@ -18,22 +18,22 @@
       <section class="mt-6 flex items-center justify-center">
         <!-- First div with Tailwind CSS classes -->
 
-        <div class="justify-center items-center p-4 bg-white w-3/4 shadow-lg rounded-lg  ">
-  <h1 class="text-5xl font-bold text-red-400 text-center mb-8">ปัญหา</h1>
-  <div v-for="(item, index) in mockupData" :key="index" class="justify-center items-center p-4 bg-[#F5F7F9] h-60 w-2/3 shadow-lg rounded-lg mx-auto flex-col justify-center pt-12  border-gray-500 mb-8">
+        <div class="justify-center items-center p-4 bg-white w-3/4 shadow-lg rounded-lg">
+    <h1 class="text-5xl font-bold text-red-400 text-center mb-8">ปัญหา</h1>
+    <div v-for="(item, index) in problems" :key="index" class="justify-center items-center p-4 bg-[#F5F7F9] h-60 w-2/3 shadow-lg rounded-lg mx-auto flex-col justify-center pt-12  border-gray-500 mb-8">
     <div class="flex items-center text-bold">
       <img
         class="h-12 w-12 rounded-full"
-        :src="item.image"
+        src="https://cdn-icons-png.flaticon.com/512/4646/4646084.png"
         alt=""
       />
-      <label for="courseName" class="text-base	 font-bold leading-6 text-gray-900 pl-5">{{ item.name }}</label>
+      <label for="courseName" class="text-base	 font-bold leading-6 text-gray-900 pl-5">{{ item.createdBy }}</label>
     </div>
     <div class="pt-6">
-      <label for="courseName" class="text-base	  font- font-medium leading-6 text-gray-900 pl-5">ปัญหา: {{ item.problem }}</label>
+      <label for="courseName" class="text-base	  font- font-medium leading-6 text-gray-900 pl-5">ปัญหา: {{ item.title }}</label>
     </div>
     <div class="pt-6">
-      <label for="courseName" class="text-base	   font-medium leading-6 text-gray-900 pl-5">คำอธิบายเพิ่มเติม: {{ item.additionalDescription }}</label>
+      <label for="courseName" class="text-base	   font-medium leading-6 text-gray-900 pl-5">คำอธิบายเพิ่มเติม: {{ item.description }}</label>
     </div>
   </div>
 </div>
@@ -45,33 +45,34 @@
 
 <script>
 import Navbar from "../components/Navbar.vue";
+import axios from "axios"; // Import Axios for making HTTP requests
+
 export default {
   components: {
     Navbar: Navbar,
   },
   data() {
     return {
-      mockupData: [
-        {
-          name: "bosseiei",
-          problem: "First mockup problem",
-          additionalDescription: "First mockup additional description First mockup additional description",
-          image: "https://placekitten.com/256/256",
-        },
-        {
-          name: "anotherUser",
-          problem: "Second mockup problem",
-          additionalDescription: "Second mockup additional description",
-          image: "https://placekitten.com/256/256", // Placeholder image for variety
-        },
-        {
-          name: "testUser",
-          problem: "Third mockup problem",
-          additionalDescription: "Third mockup additional description",
-          image: "https://placekitten.com/256/256", // Placeholder image for variety
-        },
-      ],
+      problems: [],
     };
+  },
+  mounted() {
+    // Fetch problems when the component is mounted
+    this.getProblems();
+  },
+  methods: {
+    async getProblems() {
+      try {
+        // Make an HTTP GET request to your backend endpoint for fetching problems
+        const response = await axios.get('http://localhost:3000/problems'); // Replace with your actual backend endpoint
+
+        // Update the component data with the fetched problems
+        this.problems = response.data.problems;
+      } catch (error) {
+        // Handle error
+        console.error('Error fetching problems:', error);
+      }
+    },
   },
 };
 </script>

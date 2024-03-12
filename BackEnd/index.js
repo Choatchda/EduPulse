@@ -6,20 +6,24 @@ const uuid = require('uuid');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const port = 3000;
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+const bodyParser = require('body-parser');
+const { v4: uuidv4 } = require('uuid');
 app.use(cors());
 app.use(express.json());
-
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 // Define a route
 app.get('/', (req, res) => {
   res.send('Hello, Express!');
 });
  
 
-const AWS_ACCESS_KEY_ID = "ASIA4MTWMHLB7GCMCSGV"
+const AWS_ACCESS_KEY_ID = "ASIA4MTWMHLBTSMWXGGC"
 
-const AWS_SECRET_ACCESS_KEY = "cf+3rIZesqzrU8FVbDyTsb3xGYN5z9FORcY6XeAX"
-const AWS_SESSION_TOKEN=`FwoGZXIvYXdzEPT//////////wEaDNefjNabqSHbtiEG8yLFAfQroASytg3OzuOcNUQmRgeWogAIRJyvenqumfn5uxXAyE1F+uDvdUK+eyYQKi+HnDVHbCMFOggq7tnwfuFXG5ozIXGqPcKsvTudhuxW+U6bzr6me+bELRSL3xE7ymhN/N0UCRHjLWO6C9GITskbMO744EEmIlQDLEYtyTf3IDGGLDAftwZHTT+134R4ulz0ZB5jJWNSGaElKGgygHqGRBRlAKRJbGOG7c+HkZxeI2VOl92TRCskiRDs2hlHYNpKM9RItCZAKJu8ra8GMi3BEKcc/MXzNzxynPl8ycxX5OJdhPjdbMEs4STstHKZOYanb3NjfgIRGlu18gM=`
+const AWS_SECRET_ACCESS_KEY = "aE7Ufu52MDEly+DG4KaaYO44HIhNw3Ga7iyZRKVw"
+const AWS_SESSION_TOKEN=`FwoGZXIvYXdzEE0aDJsGvsXvOX5Wz9LfaCLFATqnlGKpCf+6kswMi3oJ9RPrDJnl7EK4J97w87okRSbIxH9BtPJCFe6qBLUmf8NAo2frzqAGIDOl6naa99h5AQD5mq/+3XKSepzzaruDgBRCsTvok9FFgPWooX5XErFcEuYHm9JrXPCAcMbMZ6kYhI+yw4UQtMBxCk65IBrEYXRBf23a/yvqA7GMcpYyi2EzY50u/sa8pdpBiuhzcTUqXoAJSBABl9cATBmEtPtz16HFCWDMyEMaxMPIkjYr9iHXZHepNor9KNqHwa8GMi0SnL1J1E0mVRMGJIgHPU2A8Zx9Kgjpgc41D3pmVUe0PE/rkKZMFG5LZ0yMXxs=`
 
 const accessKeyId  = AWS_ACCESS_KEY_ID
 const secretAccessKey = AWS_SECRET_ACCESS_KEY
@@ -39,15 +43,32 @@ AWS.config.update({
     credentials: credentials,
     region : "us-east-1"
 })
-const dynamodb = new AWS.DynamoDB.DocumentClient();
 
+const upload = multer({
+  storage: multerS3({
+    s3: new AWS.S3({
+      accessKeyId: accessKeyId,
+      secretAccessKey: secretAccessKey,
+      sessionToken: sessionToken,
+    }),
+    bucket: 'edupulse-bucket',
+    acl: 'private',
+    key: function (req, file, cb) {
+      cb(null, 'courses/' + Date.now().toString() + '-' + file.originalname);
+    },
+  }),
+});
+
+ 
+const dynamodb = new AWS.DynamoDB.DocumentClient();
+const dynamodb1 = new AWS.DynamoDB()
 app.get('/course', async (req, res) => {
   const params = {
     TableName: 'course',
   };
 
   try {
-    const data = await dynamodb.scan(params).promise();
+    const data = await dynamodb1.scan(params).promise();
     const items = data.Items ? data.Items.map(item => AWS.DynamoDB.Converter.unmarshall(item)) : [];
 
     res.json({ data: items });
@@ -62,27 +83,62 @@ app.get('/course', async (req, res) => {
   }
 });
 
-app.post('/addCourse', async (req, res) => {
-   console.log(req.body)
-  const { data } = req.body;
 
-  if (!data || !Array.isArray(data) || data.length === 0) {
-    return res.status(400).json({ message: 'Invalid data format' });
+
+// Use DynamoDB instead of DocumentClient
+
+app.post('/course', upload.fields([{ name: 'imageFile', maxCount: 1 }, { name: 'videoFile', maxCount: 1 }]), async (req, res) => {
+  // Generate unique courseId
+  const courseId = uuidv4();
+
+  console.log(req.body);
+
+  const { courseName, hour, teacherName, subject } = req.body;
+  const imageFile = req.files['imageFile'] ? req.files['imageFile'][0].location : null;
+  const videoFile = req.files['videoFile'] ? req.files['videoFile'][0].location : null;
+
+  // Validation: Check if required fields are provided
+  if (!courseName || !hour || !teacherName) {
+    return res.status(400).json({ error: 'Missing required fields' });
   }
 
+  // DynamoDB parameters
   const params = {
     TableName: 'course',
-    Item: AWS.DynamoDB.Converter.marshall(data[0]),
+    Item: {
+      courseId,
+      courseName,
+      hour,
+      teacherName,
+      imageURL: imageFile,
+      videoURL: videoFile,
+      subject: subject,
+    },
   };
 
   try {
-    await dynamodb.putItem(params).promise();
-    res.json({ message: 'Course added successfully' });
+    // Use DynamoDB's put method for item insertion
+    await dynamodb.put(params).promise();
+
+    // Include the S3 link in the response
+    const response = {
+      message: 'Course added successfully',
+      imageURL: imageFile, // S3 link
+    };
+
+    res.status(201).json(response);
   } catch (error) {
     console.error('Error adding course to DynamoDB:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+
+
+
+
+
 const tableName = 'user'; // Update with your DynamoDB table name
 app.post('/login', async (req, res) => {
   try {
@@ -113,7 +169,7 @@ app.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    res.status(200).json({ userId: user.userId, message: 'Login successful' });
+    res.status(201).json({ userId: user.userId, message: 'Login successful' });
   } catch (error) {
     console.error('Error during login:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -183,12 +239,95 @@ app.get('/user/:userId', async (req, res) => {
     // Convert DynamoDB item to a plain JavaScript object
  
 
-    res.status(200).json({ user: userData.Item });
+    res.status(201).json({ user: userData.Item });
   } catch (error) {
     console.error('Error retrieving user details:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+
+app.post('/problem', async (req, res) => {
+  try {
+    console.log(req.body);
+    const problemId = uuidv4();
+    // Extract problem data from the request body
+    const { title, description,createdBy,
+    } = req.body;
+
+    // Validate required fields
+    if (!problemId || !title || !description || !createdBy) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // DynamoDB parameters
+    const params = {
+      TableName: 'problem',
+      Item: {
+        problemId,
+        title,
+        description,
+        createdBy,
+      },
+    };
+
+    // Use DynamoDB's put method for item insertion
+    await dynamodb.put(params).promise();
+
+    res.status(201).json({ message: 'Problem added successfully' });
+  } catch (error) {
+    console.error('Error adding problem to DynamoDB:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+app.get('/problem/:problemId', async (req, res) => {
+  try {
+    const { problemId } = req.params;
+
+    // DynamoDB parameters
+    const params = {
+      TableName: 'problem',
+      Key: {
+        problemId,
+      },
+    };
+
+    // Use DynamoDB's get method to retrieve a problem by problemId
+    const problemData = await dynamodb.get(params).promise();
+
+    if (!problemData.Item) {
+      return res.status(404).json({ message: 'Problem not found' });
+    }
+
+    res.status(200).json({ problem: problemData.Item });
+  } catch (error) {
+    console.error('Error retrieving problem details:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+app.get('/problems', async (req, res) => {
+  try {
+    // Retrieve all problems from your DynamoDB table
+    const params = {
+      TableName: 'problem',
+    };
+
+    const data = await dynamodb1.scan(params).promise();
+    const problems = data.Items ? data.Items.map(item => AWS.DynamoDB.Converter.unmarshall(item)) : [];
+
+    res.status(200).json({ problems });
+  } catch (error) {
+    console.error('Error retrieving problems from DynamoDB:', error);
+
+    if (error.code === 'NetworkingError') {
+      res.status(500).json({ message: 'NetworkingError: Check AWS credentials and network connection.' });
+    } else {
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  }
+});
+
 
 
 // Start the server

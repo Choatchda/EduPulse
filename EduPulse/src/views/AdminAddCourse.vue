@@ -23,85 +23,35 @@
             เพิ่มคอร์สเรียน
           </h1>
 
-          <!-- Form Grid 1 -->
-          <div class="sm:col-span-2 mb-4 flex flex-wrap justify-center gap-24">
-            <div class="flex-col mb-6 flex item-center w-1/3">
-              <label
-                for="courseName"
-                class="text-sm font-medium leading-6 text-gray-900"
-                >ชื่อคอร์สเรียน:</label
-              >
-              <input
-                type="text"
-                id="courseName"
-                name="courseName"
-                class="w-48 h-12 bg-slate-50 border-0 rounded-2xl shadow-sm ring-1 ring-inset ring-gray-400 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder=""
-              />
-            </div>
-            <div class="flex-col mb-6 flex">
-              <label
-                for="teacher"
-                class="text-sm font-medium leading-6 text-gray-900"
-                >ครูผู้สอน:</label
-              >
-              <input
-                type="text"
-                id="teacher"
-                name="teacher"
-                class="w-48 h-12 bg-slate-50 border-0 rounded-2xl shadow-sm ring-1 ring-inset ring-gray-400 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder=""
-              />
-            </div>
-          </div>
+         <!-- Form Grid 1 -->
+<div class="sm:col-span-2 mb-4 flex flex-wrap justify-center gap-24">
+  <div class="flex-col mb-6 flex item-center w-1/3">
+    <label for="courseName" class="text-sm font-medium leading-6 text-gray-900">ชื่อคอร์สเรียน:</label>
+    <input v-model="courseName" type="text" id="courseName" name="courseName" class="w-48 h-12 bg-slate-50 border-0 rounded-2xl shadow-sm ring-1 ring-inset ring-gray-400 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="" />
+  </div>
+  <div class="flex-col mb-6 flex">
+    <label for="teacher" class="text-sm font-medium leading-6 text-gray-900">ครูผู้สอน:</label>
+    <input v-model="teacherName" type="text" id="teacher" name="teacher" class="w-48 h-12 bg-slate-50 border-0 rounded-2xl shadow-sm ring-1 ring-inset ring-gray-400 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="" />
+  </div>
+</div>
 
-          <!-- Form Grid 2 -->
-          <div class="sm:col-span-2 mb-4 flex flex-wrap justify-center gap-24">
-            <div class="flex-col mb-6 flex item-center w-1/3">
-              <label
-                for="Subject"
-                class="text-sm font-medium leading-6 text-gray-900"
-                >วิชา:</label
-              >
-              <input
-                type="text"
-                id="Subject"
-                name="Subject"
-                class="w-48 h-12 bg-slate-50 border-0 rounded-2xl shadow-sm ring-1 ring-inset ring-gray-400 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder=""
-              />
-            </div>
-            <div class="flex-col mb-6 flex">
-              <label
-                for="price"
-                class="text-sm font-medium leading-6 text-gray-900"
-                >ราคา:</label
-              >
-              <input
-                type="text"
-                id="price"
-                name="price"
-                class="w-48 h-12 bg-slate-50 border-0 rounded-2xl shadow-sm ring-1 ring-inset ring-gray-400 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder=""
-              />
-            </div>
-          </div>
+<!-- Form Grid 2 -->
+<div class="sm:col-span-2 mb-4 flex flex-wrap justify-center gap-24">
+  <div class="flex-col mb-6 flex item-center w-1/3">
+    <label for="Subject" class="text-sm font-medium leading-6 text-gray-900">วิชา:</label>
+    <input v-model="subject" type="text" id="Subject" name="Subject" class="w-48 h-12 bg-slate-50 border-0 rounded-2xl shadow-sm ring-1 ring-inset ring-gray-400 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="" />
+  </div>
+  <div class="flex-col mb-6 flex">
+    <label for="price" class="text-sm font-medium leading-6 text-gray-900">ราคา:</label>
+    <input v-model="price" type="text" id="price" name="price" class="w-48 h-12 bg-slate-50 border-0 rounded-2xl shadow-sm ring-1 ring-inset ring-gray-400 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="" />
+  </div>
+</div>
 
-          <!-- Form Grid 3 -->
-          <div class=" px-11 ml-8 flex-col mb-6 flex item-center w-1/2">
-              <label
-                for="courseName"
-                class="text-sm font-medium leading-6 text-gray-900"
-                >อายุคอร์สเรียน:</label
-              >
-              <input
-                type="number"
-                id="courseName"
-                name="courseName"
-                class="w-48 h-12 bg-slate-50 border-0 rounded-2xl shadow-sm ring-1 ring-inset ring-gray-400 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                placeholder=""
-              />
-            </div>
+<!-- Form Grid 3 -->
+<div class="px-11 ml-8 flex-col mb-6 flex item-center w-1/2">
+  <label for="courseDuration" class="text-sm font-medium leading-6 text-gray-900">อายุคอร์สเรียน:</label>
+  <input v-model="hour" type="number" id="courseDuration" name="courseDuration" class="w-48 h-12 bg-slate-50 border-0 rounded-2xl shadow-sm ring-1 ring-inset ring-gray-400 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="" />
+</div>
 
           <!-- Image upload section -->
       
@@ -145,6 +95,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Swal from 'sweetalert2';
 import Navbar from "../components/Navbar.vue";
 export default {
@@ -161,7 +112,7 @@ export default {
       teacherName: '',
       subject: '',
       price: '',
-      courseDuration: ''
+      hour: ''
     };
   },
   methods: {
@@ -171,34 +122,37 @@ export default {
       formData.append('teacherName', this.teacherName);
       formData.append('subject', this.subject);
       formData.append('price', this.price);
-      formData.append('hour', this.courseDuration);
+      formData.append('hour', this.hour);
       formData.append('imageFile', this.imageFile);
       formData.append('videoFile', this.videoFile);
 
       try {
-        const response = await fetch('/course', {
-          method: 'POST',
-          body: formData
-        });
+    const response = await axios.post('http://localhost:3000/course', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data', // Set the content type to JSON
+        },
+    });
 
-        if (response.ok) {
-          Swal.fire({
+    console.log(response);
+
+    if (response.status === 201) {
+        Swal.fire({
             icon: 'success',
             title: 'Success',
             text: 'Course added successfully'
-          });
-        } else {
-          throw new Error('Failed to add course');
-        }
-      } catch (error) {
-        console.error('Error adding course:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Failed to add course'
         });
-      }
-    },
+    } else {
+        throw new Error('Failed to add course');
+    }
+} catch (error) {
+    console.error('Error adding course:', error);
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.message || 'An error occurred during the request.'
+    });
+} }
+,
     handleImageUpload(event) {
       const file = event.target.files[0];
       if (file) {
