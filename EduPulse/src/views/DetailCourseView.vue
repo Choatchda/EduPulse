@@ -11,10 +11,7 @@
           />
         </div>
         <div class="basis-1/2 justify-center flex">
-            <BuyCourseCard class="justify-center"
-              nameeachcourse="'djsjda'"
-              priceeachcourse=9
-            />
+            <BuyCourseCard nameeachcourse="คอร์สภาษาไทย" priceeachcourse="1500" username="Choatchda"  @buy-success="handleBuySuccess" />
         </div>
       </div>
       <div class="bg-white rounded-lg shadow-lg w-1/2 p-4 m-4 grid gap-3">

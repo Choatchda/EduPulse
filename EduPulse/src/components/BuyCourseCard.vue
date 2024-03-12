@@ -17,6 +17,8 @@
           <font-awesome-icon icon="fa-regular fa-calendar-days" class="fa-2xl" />
           <p class="max-w-2xl font-light text-sm">อายุคอร์ส</p>
         </div>
+
+   
       </div>
       <hr class="h-px my-4 border-0 bg-gray-300" />
       <h5 class="text-xl mb-3 font-semibold text-orange-500">฿{{ priceeachcourse }}</h5>
@@ -54,6 +56,14 @@
           <label for="courseCost" class="block text-sm font-medium text-gray-600">Course Cost</label>
           <input type="text" id="courseCost" :value="priceeachcourse" @input="updateCourseCost($event.target.value)" class="mt-1 p-2 border rounded-md w-full" required>
         </div>
+          <div class="mb-4">
+          <label for="username" class="block text-sm font-medium text-gray-600">Username</label>
+          <input type="text" id="username" :value="username" @input="updateUsername($event.target.value)" class="mt-1 p-2 border rounded-md w-full" required>
+        </div>
+        <div class="mb-4">
+          <label for="Tel" class="block text-sm font-medium text-gray-600">Tel</label>
+          <input type="tel" id="Tel" :value="tel" @input="updateTel($event.target.value)" class="mt-1 p-2 border rounded-md w-full" required>
+        </div>
         <div class="mb-4">
           <label class="block text-sm font-medium text-gray-600">Upload Image</label>
           <input type="file" accept="image/*" @change="handleImageUpload" class="mt-1 p-2 border rounded-md w-full">
@@ -64,16 +74,23 @@
         <button @click="closeAfterBuyModal" class="bg-blue-500 text-white px-4 py-2 rounded-md">Submit</button>
       </div>
     </div>
+  
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, defineProps, defineEmits } from 'vue';
+import axios from 'axios';
+
+const { emit } = defineEmits(['buy-success', 'update:username', 'update:tel', 'update:image']);
 
 defineProps({
   nameeachcourse: String,
-  priceeachcourse: Number
-})
+  priceeachcourse: Number,
+  tel: String,
+  username : String,
+  image: String,
+});
 
 const isBuyModalOpen = ref(false);
 const isAfterBuyModalOpen = ref(false);
@@ -90,11 +107,32 @@ const closeBuyModal = () => {
 const buyCourse = () => {
   isAfterBuyModalOpen.value = true;
   closeBuyModal();
+
+  const currentDate = new Date();
+  const formattedDate = `${currentDate.getDate().toString().padStart(2, '0')}/${(currentDate.getMonth() + 1).toString().padStart(2, '0')}/${currentDate.getFullYear()}`;
+
+  // Post data to the backend using Axios
+  axios.post('/api/buy-course', {
+    name: nameeachcourse,
+    price: priceeachcourse,
+    tel: tel,
+    image: image,
+    state : "รออนุมัติ",
+    date: formattedDate, 
+    username: username
+    // Add more data fields as needed
+  })
+  .then(() => {
+    // Emit success event to parent component
+    emit('buy-success');
+  })
+  .catch(error => {
+    console.error('Error buying course:', error);
+    // Handle error if necessary
+  });
 };
 
 const closeAfterBuyModal = () => {
-  // Perform submission logic here
-  // e.g., sending data to backend
   isAfterBuyModalOpen.value = false;
 };
 
@@ -103,17 +141,17 @@ const handleImageUpload = (event) => {
   if (file) {
     const reader = new FileReader();
     reader.onload = () => {
-      courseImage.value = reader.result;
+      emit('update:image', reader.result);
     };
     reader.readAsDataURL(file);
   }
 };
 
-const updateCourseName = (value) => {
-  nameeachcourse.value = value;
+const updateUsername = (value) => {
+  emit('update:username', value);
 };
 
-const updateCourseCost = (value) => {
-  priceeachcourse.value = value;
+const updateTel = (value) => {
+  emit('update:tel', value);
 };
 </script>
