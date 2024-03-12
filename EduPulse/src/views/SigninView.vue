@@ -25,7 +25,7 @@
                 <label
                   for="email"
                   class="block text-sm font-medium leading-6 text-gray-900"
-                >Email</label>
+                >อีเมล</label>
                 <div class="mt-2">
                   <input
                     type="email"
@@ -33,6 +33,7 @@
                     v-model="formData.email"
                     class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                     required
+                    placeholder="โปรดกรอกอีเมล"
                   />
                 </div>
               </div>
@@ -41,7 +42,7 @@
                 <label
                   for="password"
                   class="block text-sm font-medium leading-6 text-gray-900"
-                >Password</label>
+                >รหัสผ่าน</label>
                 <div class="mt-2">
                   <input
                     type="password"
@@ -49,6 +50,7 @@
                     v-model="formData.password"
                     class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
                     required
+                    placeholder="โปรดกรอกรหัสผ่าน"
                   />
                 </div>
               </div>
@@ -65,7 +67,7 @@
 
             <div class="text-gray-600 text-center">
               <p>
-                Already have an account?
+                ยังไม่มีบัญชีใช่ไหมสมัครเลย?
                 <router-link to="/signup" class="text-blue-500">Sign up</router-link>.
               </p>
             </div>

@@ -83,6 +83,14 @@ const router = createRouter({
       component: () => import('../views/StudyCourseView.vue')
     },
 
+    {
+  
+      path: '/approve',
+      name:  'Approvepayment',
+      component: () => import('../views/ApprovePayment.vue')
+    },
+
+
   
   ]
 })
