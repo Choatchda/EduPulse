@@ -3,6 +3,7 @@
     id="signup"
     class="flex flex-col items-center justify-center min-h-screen bg-gray-100"
   >
+    <!-- Header -->
     <h1 class="text-6xl font-bold font-orbitron text-black mb-4 custom-font">
       Edupulse
     </h1>
@@ -13,41 +14,74 @@
         Signup
       </h1>
       <form @submit.prevent="submitForm">
+        <!-- First Name -->
         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <!-- First Name -->
           <div class="sm:col-span-3">
             <label
               for="first_name"
               class="block text-sm font-medium leading-6 text-gray-900"
-              >First name</label
+              >ชื่อจริง</label
             >
-            <div class="mt-2">
+            <div class="mt-2 relative">
               <input
                 type="text"
                 id="first_name"
                 v-model="formData.first_name"
-                class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                :class="{
+                  'border-gray-400': isFirstNameValid,
+                  'border-red-500':
+                    !isFirstNameValid && formData.first_name.length > 0,
+                  'border-indigo-300': formData.first_name.length === 0,
+                }"
+                class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                placeholder="โปรดกรอกชื่อจริง"
                 required
               />
             </div>
+            <!-- Validation message -->
+            <span
+              :class="{
+                'text-green-500': isFirstNameValid,
+                'text-red-500': !isFirstNameValid,
+              }"
+              class="block mt-1 text-sm"
+              aria-hidden="true"
+              >{{ firstNameValidationMessage }}</span
+            >
           </div>
-
           <!-- Last Name -->
           <div class="sm:col-span-3">
             <label
               for="last_name"
               class="block text-sm font-medium leading-6 text-gray-900"
-              >Last name</label
+              >นามสกุล</label
             >
             <div class="mt-2">
               <input
                 type="text"
                 id="last_name"
                 v-model="formData.last_name"
-                class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                :class="{
+                  'border-gray-400': isLastNameValid,
+                  'border-red-500':
+                    !isLastNameValid && formData.last_name.length > 0,
+                  'border-indigo-300': formData.last_name.length === 0,
+                }"
+                class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                placeholder="โปรดกรอกนามสกุล"
                 required
               />
             </div>
+            <!-- Validation message -->
+            <span
+              :class="{
+                'text-green-500': isLastNameValid,
+                'text-red-500': !isLastNameValid,
+              }"
+              class="block mt-1 text-sm"
+              aria-hidden="true"
+              >{{ lastNameValidationMessage }}</span
+            >
           </div>
         </div>
 
@@ -58,52 +92,74 @@
             <label
               for="age"
               class="block text-sm font-medium leading-6 text-gray-900"
-              >Age</label
+              >อายุ</label
             >
-            <div class="mt-2">
+            <div class="mt-2 relative">
               <input
                 type="number"
                 id="age"
                 v-model="formData.age"
-                class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                :class="{
+                  'border-gray-400': isAgeValid,
+                  'border-red-500': !isAgeValid && formData.age,
+                  'border-indigo-300': !formData.age,
+                }"
+                class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+                placeholder="โปรดกรอกอายุ"
                 required
               />
             </div>
+            <!-- Validation message -->
+            <span
+              :class="{
+                'text-green-500': isAgeValid,
+                'text-red-500': !isAgeValid && formData.age,
+                'text-red-500': !formData.age,
+              }"
+              class="block mt-1 text-sm"
+              aria-hidden="true"
+              >{{ ageValidationMessage }}</span
+            >
           </div>
-
           <!-- Gender -->
           <div class="sm:col-span-3">
             <label
               for="selectedGender"
               class="block text-sm font-medium leading-6 text-gray-900"
-              >Gender</label
+              >เพศ</label
             >
-            <div class="mt-2">
-              <div class="relative">
-                <select
-                  v-model="formData.selectedGender"
-                  class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+            <div class="mt-2 relative">
+              <select
+                v-model="formData.selectedGender"
+                class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                required
+              >
+                <option disabled value="">เลือกเพศ</option>
+                <option value="Male">เพศชาย</option>
+                <option value="Female">เพศหญิง</option>
+              </select>
+              <span
+                class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
+              >
+                <svg
+                  class="h-6 w-6 text-gray-400 transform rotate-90"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  <option disabled value="">เลือกเพศของคณ</option>
-                  <option  value="เพศชาย">เพศชาย</option>
-                  <option value="เพศหญิง">เพศหญิง</option>
-                </select>
-                <div
-                  class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
-                >
-                  <!-- Triangle icon indicating select is clickable -->
-                  <svg
-                    class="fill-current h-4 w-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      d="M10 12.586l-4.293-4.293a1 1 0 0 1 1.414-1.414L10 10.758l3.879-3.879a1 1 0 0 1 1.414 1.414l-4.586 4.586a1 1 0 0 1-1.414 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  ></path>
+                </svg>
+              </span>
             </div>
+            <span
+              >กรุณาเลือกเพศ</span
+            >
           </div>
         </div>
 
@@ -119,10 +175,27 @@
               type="text"
               id="username"
               v-model="formData.username"
-              class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+              :class="{
+                'border-gray-400': isUsernameValid,
+                'border-red-500':
+                  !isUsernameValid && formData.username.length > 0,
+                'border-indigo-300': formData.username.length === 0,
+              }"
+              class="bg-indigo-50 border text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+              placeholder="โปรดกรอก username"
               required
             />
           </div>
+          <!-- Validation message -->
+          <span
+            :class="{
+              'text-green-500': isUsernameValid,
+              'text-red-500': !isUsernameValid,
+            }"
+            class="block mt-1 text-sm"
+            aria-hidden="true"
+            >{{ usernameValidationMessage }}</span
+          >
         </div>
 
         <!-- Email -->
@@ -130,7 +203,7 @@
           <label
             for="email"
             class="block text-sm font-medium leading-6 text-gray-900"
-            >Email</label
+            >อีเมล</label
           >
           <div class="mt-2">
             <input
@@ -138,6 +211,7 @@
               id="email"
               v-model="formData.email"
               class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+              placeholder="โปรดกรอกอีเมล"
               required
             />
           </div>
@@ -148,7 +222,7 @@
           <label
             for="password"
             class="block text-sm font-medium leading-6 text-gray-900"
-            >Password</label
+            >รหัสผ่าน</label
           >
           <div class="mt-2">
             <input
@@ -156,6 +230,7 @@
               id="password"
               v-model="formData.password"
               class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+              placeholder="โปรดกรอกรหัสผ่าน"
               required
             />
           </div>
@@ -166,7 +241,7 @@
           <label
             for="confirm_password"
             class="block text-sm font-medium leading-6 text-gray-900"
-            >Confirm Password</label
+            >กรอกรหัสผ่านอีกครั้ง</label
           >
           <div class="mt-2">
             <input
@@ -174,6 +249,7 @@
               id="confirm_password"
               v-model="formData.confirm_password"
               class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5"
+              placeholder="กรอกรหัสผ่านอีกครั้ง"
               required
             />
           </div>
@@ -193,7 +269,7 @@
       <!-- Sign in Link -->
       <div class="text-gray-600 text-center">
         <p>
-          Already have an account?
+          มีบัญชีแล้วใช่ไหม?
           <router-link to="/signin" class="text-blue-500">Sign in</router-link>.
         </p>
       </div>
@@ -204,7 +280,6 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
-import  {backendUrl}  from '../port';
 export default {
   data() {
     return {
@@ -220,11 +295,77 @@ export default {
       },
     };
   },
+  computed: {
+    isFirstNameValid() {
+      const length = this.formData.first_name.length;
+      return length >= 5 && length <= 20;
+    },
+    firstNameValidationMessage() {
+      return this.isFirstNameValid
+        ? "ถูกต้อง"
+        : "ตำเตือน: ชื่อจริงควรอยู่ระหว่าง 5-20 คำ";
+    },
+    isLastNameValid() {
+      const length = this.formData.last_name.length;
+      return length >= 5 && length <= 20;
+    },
+    lastNameValidationMessage() {
+      return this.isLastNameValid
+        ? "ถูกต้อง"
+        : "ตำเตือน: นามสกุลควรอยู่ระหว่าง 5-20 คำ";
+    },
+    isAgeValid() {
+      return this.formData.age >= 15 && this.formData.age <= 19;
+    },
+    ageValidationMessage() {
+      return this.isAgeValid
+        ? "ถูกต้อง"
+        : "คำเตือน : อายุควรอยู่ระหว่าง 15 - 19 ปี ";
+    },
+    isUsernameValid() {
+      const length = this.formData.username.length;
+      return length >= 5 && length <= 20;
+    },
+    usernameValidationMessage() {
+      return this.isUsernameValid
+        ? "ถูกต้อง"
+        : "คำเตือน: Username ควรอยู่ระหว่าง 5 - 20 คำ";
+    },
+  },
   methods: {
     async submitForm() {
-      console.log('REGISTER')
+      // Check if any required field is empty
+      if (
+        !this.formData.first_name ||
+        !this.formData.last_name ||
+        !this.formData.age ||
+        !this.formData.selectedGender ||
+        !this.formData.username ||
+        !this.formData.email ||
+        !this.formData.password ||
+        !this.formData.confirm_password
+      ) {
+        // Display an alert if any required field is empty
+        Swal.fire({
+          title: "Please fill in all required fields.",
+          icon: "warning",
+        });
+        return; // Stop form submission
+      }
+
+      // Check if password and confirm password match
+      if (this.formData.password !== this.formData.confirm_password) {
+        // Display an alert if passwords don't match
+        Swal.fire({
+          title: "Password mismatch",
+          text: "Please make sure the passwords match.",
+          icon: "error",
+        });
+        return; // Stop form submission
+      }
+
+      // Send form data to backend
       try {
-        // Send form data to backend
         const response = await axios.post(
           `${backendUrl}/register`,
           this.formData
@@ -244,13 +385,14 @@ export default {
           password: "",
           confirm_password: "",
         };
+
+        // Redirect to sign-in page after successful registration
         Swal.fire({
-  title: "Register successful",
-  text: "",
-  icon: "success"
-}).then(() => {
-  window.location.href = "/signin"; // Replace "/" with the desired URL
-});
+          title: "Register successful",
+          icon: "success",
+        }).then(() => {
+          window.location.href = "/signin"; // Replace "/" with the desired URL
+        });
       } catch (error) {
         // Handle error
         console.error("Error submitting form:", error);
