@@ -33,11 +33,29 @@
               />
             </div>
           </div>
-      <div v-if="userId" class="flex flex-6 items-center justify-center sm:items-stretch sm:justify-start">
+      <div v-if="userId === 'd7afeb6e-ab7d-4f22-a92a-87d7e66995b2'" class="flex flex-6 items-center justify-center sm:items-stretch sm:justify-start">
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-16">
             <a
               v-for="item in loggedInNavigation"
+              v-on:click="!item.current"
+              :key="item.name"
+              :class="[
+                item.current ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-700 hover:text-white',
+                'rounded-md px-3 py-2 text-sm font-medium',
+              ]"
+              :aria-current="item.current ? 'page' : undefined"
+            >
+              <router-link :to="item.href">{{ item.name }}</router-link>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div v-else class="flex flex-6 items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="hidden sm:ml-6 sm:block">
+          <div class="flex space-x-16">
+            <a
+              v-for="item in navigation"
               v-on:click="!item.current"
               :key="item.name"
               :class="[
@@ -64,7 +82,7 @@
                   <span class="sr-only">Open user menu</span>
                   <img
                     class="h-8 w-8 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    src="https://www.svgrepo.com/show/382109/male-avatar-boy-face-man-user-7.svg"
                     alt=""
                   />
                 </MenuButton>
@@ -82,24 +100,15 @@
                 >
                   <MenuItem v-slot="{ active }">
                     <a
-                      href="#"
+                      href="/profile"
                       :class="[
                         active ? 'bg-gray-100' : '',
                         'block px-4 py-2 text-sm text-gray-700',
                       ]"
-                      >Your Profile</a
+                      >Profile</a
                     >
                   </MenuItem>
-                  <MenuItem v-slot="{ active }">
-                    <a
-                      href="#"
-                      :class="[
-                        active ? 'bg-gray-100' : '',
-                        'block px-4 py-2 text-sm text-gray-700',
-                      ]"
-                      >Settings</a
-                    >
-                  </MenuItem>
+            
                   <MenuItem v-slot="{ active }">
                     <a
                       href="#"
@@ -154,19 +163,19 @@ const router = useRouter();
 const navigation = [
   { name: "Home", href: "/", current: false },
   { name: "Course", href: "/course", current: false },
-  { name: "แจ้งปัญหา", href: "/report", current: false },
+  { name: "แจ้งปัญหา", href: "/problem", current: false },
+  { name: "คอร์สของฉัน", href: "/mycourse", current: false }
+  
 ];
 
 const loggedInNavigation = [
   { name: "หน้าหลัก", href: "/", current: false },
-  { name: "คอร์สเรียน", href: "/course", current: false },
+  { name: "เพิ่มคอร์สเรียน", href: "/Addcourse", current: false },
   { name: "ปัญหา", href: "/problem", current: false },
   { name: "การอนุมัติ", href: "/approval", current: false },
-  { name: "โปรไฟล์", href: "/profile", current: false },
-  { name: "คอร์สของฉัน", href: "/mycourse", current: false },
 ];
 
-let userId = null; // ให้ตัวแปรนี้เก็บ user id ที่ได้จากการล็อกอิน
+let userId = localStorage.getItem('userId'); // ให้ตัวแปรนี้เก็บ user id ที่ได้จากการล็อกอิน
 
 const signOut = () => {
   // Clear localStorage
