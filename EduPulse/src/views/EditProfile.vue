@@ -14,31 +14,37 @@
               <div class="flex flex-col items-center justify-center space-y-5 sm:flex-row sm:space-y-0">
 
                 <!-- Profile picture -->
-                <img class="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
-                  src="https://cdn.discordapp.com/attachments/1214039159514210355/1214178440593539113/a99ab961c8f8c7d29b5f7136e0b19ca4.png?ex=65f82aca&is=65e5b5ca&hm=46d5f7639090398193da0c86f1c1978dfdcecf29c72a160dd56823aacfe95088&"
-                  alt="Bordered avatar">
+
+                <img v-if="formData.selectedGender === 'เพศชาย'"
+                  class="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-blue-300" src="https://www.svgrepo.com/show/382109/male-avatar-boy-face-man-user-7.svg"
+                  alt="Male Avatar">
+
+                <img v-else class="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-indigo-300 dark:ring-indigo-500"
+                  src="https://www.svgrepo.com/show/382099/female-avatar-girl-face-woman-user-2.svg"
+                  alt="Female Avatar">
               </div>
 
               <!-- Form for profile details -->
               <form @submit.prevent="submitProfileForm" class="mt-8 space-y-6">
 
                 <!-- First name input -->
-                <div class="flex flex-col items-center w-full mb-2 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6">
+                <div
+                  class="flex flex-col items-center w-full mb-2 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6">
                   <div class="w-full">
-                    <label for="first_name"
-                      class="block mb-2 text-sm font-medium text-indigo-900 dark:text-black">Your first
+                    <label for="first_name" class="block mb-2 text-sm font-medium text-indigo-900 dark:text-black">Your
+                      first
                       name</label>
-                    <input type="text" id="first_name" v-model="formData.firstName"
+                    <input type="text" id="first_name" v-model="formData.first_name"
                       class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                       placeholder="Your first name" required>
                   </div>
 
                   <!-- Last name input -->
                   <div class="w-full">
-                    <label for="last_name"
-                      class="block mb-2 text-sm font-medium text-indigo-900 dark:text-black">Your last
+                    <label for="last_name" class="block mb-2 text-sm font-medium text-indigo-900 dark:text-black">Your
+                      last
                       name</label>
-                    <input type="text" id="last_name" v-model="formData.lastName"
+                    <input type="text" id="last_name" v-model="formData.last_name"
                       class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                       placeholder="Your last name" required>
                   </div>
@@ -46,8 +52,8 @@
 
                 <!-- Email input -->
                 <div class="mb-2 sm:mb-6">
-                  <label for="email"
-                    class="block mb-2 text-sm font-medium text-indigo-900 dark:text-black">Your email</label>
+                  <label for="email" class="block mb-2 text-sm font-medium text-indigo-900 dark:text-black">Your
+                    email</label>
                   <input type="email" id="email" v-model="formData.email"
                     class="bg-indigo-50 border border-indigo-300 text-indigo-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full p-2.5 "
                     placeholder="Your email" required>
@@ -80,7 +86,8 @@
 <script>
 import axios from 'axios';
 import Navbar from "../components/Navbar.vue";
-
+import { backendUrl } from '../port';
+import Swal from 'sweetalert2';
 export default {
   components: {
     Navbar: Navbar,
@@ -88,26 +95,63 @@ export default {
   data() {
     return {
       formData: {
-        firstName: '',
-        lastName: '',
-        email: ''
-      }
+        first_name: '',
+        last_name: '',
+        age: null, // Add other properties as needed
+        selectedGender: '',
+      },
+      userId: '', // Initialize userId
     };
   },
+  mounted() {
+    // Get userId from localStorage
+    this.userId = localStorage.getItem('userId');
+
+    // Fetch user details using userId
+    this.fetchUserDetails();
+  },
   methods: {
+    async fetchUserDetails() {
+      try {
+        // Send a GET request to your backend endpoint to fetch user details
+        const response = await axios.get(`${backendUrl}/user/${this.userId}`);
+
+        // Update the formData with the fetched user details
+        this.formData = response.data.user;
+
+        // Log the response from the backend
+        console.log('User details:', this.formData);
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      }
+    },
     async submitProfileForm() {
       try {
-        // Send a POST request to your backend endpoint
-        const response = await axios.post('YOUR_BACKEND_ENDPOINT_URL', this.formData);
+        // Send a PUT request to update the user profile
+        const response = await axios.post(`http://localhost:3000/updateprofile/${this.userId}`, this.formData);
 
         // Log the response from the backend
         console.log('Response from backend:', response.data);
-
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: 'Profile updated successfully!',
+        }).then(() => {
+          // Reload the page after the sweet alert is closed
+          location.reload();
+        });
         // Optionally, you can reset the form fields after successful submission
       } catch (error) {
         console.error('Error submitting form:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to update profile. Please try again.',
+        });
       }
-    }
-  }
+
+    },
+
+  },
 };
 </script>

@@ -98,6 +98,7 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Navbar from "../components/Navbar.vue";
+import  {backendUrl}  from '../port';
 export default {
   components: {
     Navbar: Navbar,
@@ -127,7 +128,7 @@ export default {
       formData.append('videoFile', this.videoFile);
 
       try {
-    const response = await axios.post('http://localhost:3000/course', formData, {
+    const response = await axios.post(`${backendUrl}/course`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data', // Set the content type to JSON
         },

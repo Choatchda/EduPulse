@@ -25,7 +25,7 @@ import Navbar from "../components/Navbar.vue";
 import StudyCourseCard from "../components/StudyCourseCard.vue";
 import SearchBox from "../components/SearchBox.vue";
 import axios from "axios";
-
+import  {backendUrl}  from '../port';
 export default {
   components: {
     Navbar: Navbar,
@@ -48,7 +48,7 @@ export default {
     async fetchUserData(userId) {
       try {
         // Assuming your backend endpoint for fetching user data is '/user/:userId'
-        const response = await axios.get(`http://localhost:3000/user/${userId}`);
+        const response = await axios.get(`${backendUrl}/user/${userId}`);
         this.studyCourses = response.data.user.courseIds;
         console.log(this.studyCourses);
         this.fetchCourseDetails(); // Call the method to fetch course details
@@ -60,7 +60,7 @@ export default {
       try {
         // Assuming your backend endpoint for fetching course details is '/course/:courseId'
         for (const courseId of this.studyCourses) {
-          const response = await axios.get(`http://localhost:3000/course/${courseId}`);
+          const response = await axios.get(`${backendUrl}/course/${courseId}`);
           this.courseDetails[courseId] = response.data;
           console.log(this.courseDetails); // Update the courseDetails object
         }

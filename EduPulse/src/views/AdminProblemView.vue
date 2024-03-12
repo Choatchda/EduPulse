@@ -46,7 +46,7 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import axios from "axios"; // Import Axios for making HTTP requests
-
+import  {backendUrl}  from '../port';
 export default {
   components: {
     Navbar: Navbar,
@@ -64,7 +64,8 @@ export default {
     async getProblems() {
       try {
         // Make an HTTP GET request to your backend endpoint for fetching problems
-        const response = await axios.get('http://localhost:3000/problems'); // Replace with your actual backend endpoint
+        const response = await axios.get(`${backendUrl}/problems`
+); // Replace with your actual backend endpoint
 
         // Update the component data with the fetched problems
         this.problems = response.data.problems;

@@ -53,7 +53,7 @@ const upload = multer({
     }),
     bucket: 'edupulse-bucket',
     acl: 'private',
-    key: function (req, file, cb) {
+    key: function (req, file, cb) { 
       cb(null, 'courses/' + Date.now().toString() + '-' + file.originalname);
     },
   }),
@@ -399,6 +399,61 @@ app.get('/course/:courseId', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+// Add a new endpoint to handle updating user profile by user ID
+app.post('/updateprofile/:userId', async (req, res) => {
+  try {
+    console.log(req.body);
+    const { userId } = req.params;
+    const { first_name, last_name, age, selectedGender } = req.body;
+
+    // Validate if at least one field is provided for update
+    if (!first_name && !last_name && !age && !selectedGender) {
+      return res.status(400).json({ error: 'At least one field is required for update' });
+    }
+
+    // DynamoDB parameters to update the user's profile
+    const updateExpression = [];
+    const expressionAttributeValues = {};
+
+    if (first_name) {
+      updateExpression.push('#first_name = :first_name');
+      expressionAttributeValues[':first_name'] = first_name;
+    }
+
+    if (last_name) {
+      updateExpression.push('#last_name = :last_name');
+      expressionAttributeValues[':last_name'] = last_name;
+    }
+
+ 
+
+    const updateExpressionStr = 'SET ' + updateExpression.join(', ');
+
+    const params = {
+      TableName: 'user',
+      Key: {
+        userId,
+      },
+      UpdateExpression: updateExpressionStr,
+      ExpressionAttributeNames: {
+        '#first_name': 'first_name',
+        '#last_name': 'last_name',
+      },
+      ExpressionAttributeValues: expressionAttributeValues,
+      ReturnValues: 'ALL_NEW',
+    };
+
+    // Use DocumentClient's update method for updating the user's profile
+    const result = await dynamodb.update(params).promise();
+
+    res.status(200).json({ updatedProfile: result.Attributes });
+  } catch (error) {
+    console.error('Error updating user profile:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 
 // Start the server

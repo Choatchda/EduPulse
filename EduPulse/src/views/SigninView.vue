@@ -79,6 +79,7 @@
 <script >
 import axios from "axios";
 import { useRouter } from 'vue-router';
+import  {backendUrl}  from '../port';
 
 import Swal from 'sweetalert2'
 export default {
@@ -97,7 +98,7 @@ export default {
         console.log('here')
         // Send form data to backend
         const response = await axios.post(
-          "http://localhost:3000/login",
+          `${backendUrl}/login`,
           this.formData
         );
 

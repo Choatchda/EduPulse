@@ -29,12 +29,12 @@ import CourseCard from "../components/ToCourseCard.vue";
 import SearchBox from "../components/SearchBox.vue";
 import { ref, onMounted } from "vue";
 import axios from "axios";
-
+import  {backendUrl}  from '../port';
 const courses = ref([]);
 
 onMounted(async () => {
   try {
-    const response = await axios.get("http://localhost:3000/course");
+    const response = await axios.get(`${backendUrl}/course`);
     console.log(response.data.data);
     courses.value = response.data.data // Replace with your actual backend endpoint
   } catch (error) {

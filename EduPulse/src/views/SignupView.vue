@@ -204,6 +204,7 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+import  {backendUrl}  from '../port';
 export default {
   data() {
     return {
@@ -225,7 +226,7 @@ export default {
       try {
         // Send form data to backend
         const response = await axios.post(
-          "http://44.198.58.146:3000/register",
+          `${backendUrl}/register`,
           this.formData
         );
 

@@ -4,7 +4,7 @@
     <div class="container mx-auto flex justify-center items-center h-screen">
       <div v-if="course" class="flex flex-col items-center">
         <h1 class="text-xl font-semibold">{{ course.courseName }}</h1>
-        <video controls class="w-full h-full">
+        <video controls class="w-screen h-screen">
           <source :src="course.videoURL" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
@@ -16,6 +16,7 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import axios from "axios";
+import  {backendUrl}  from '../port';
 
 export default {
   components: {
@@ -37,7 +38,7 @@ export default {
         const courseId = this.$route.params.courseId;
 
         // Adjust the API endpoint and pass courseId as a parameter
-        const response = await axios.get(`http://localhost:3000/course/${courseId}`);
+        const response = await axios.get(`${backendUrl}/course/${courseId}`);
         
         this.course = response.data.course;
         console.log(this.course);

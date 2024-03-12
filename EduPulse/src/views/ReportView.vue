@@ -67,7 +67,7 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import axios from "axios";
-
+import  {backendUrl}  from '../port';
 export default {
   components: {
     Navbar: Navbar,
@@ -85,7 +85,8 @@ export default {
     async submitForm() {
       try {
         // Make an HTTP POST request to your backend endpoint
-        const response = await axios.post('http://localhost:3000/problem', this.formData);
+        const response = await axios.post(`${backendUrl}/problem`
+, this.formData);
 
         // Handle success response
         console.log(response.data); // Log the response data

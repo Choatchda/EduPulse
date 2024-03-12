@@ -37,7 +37,7 @@
 import axios from 'axios';
 import Navbar from "../components/Navbar.vue";
 import BuyCourseCard from "../components/BuyCourseCard.vue";
-
+import  {backendUrl}  from '../port';
 
 export default {
   components: {
@@ -57,7 +57,7 @@ export default {
       const { courseId } = this.$route.params;
 
       try {
-        const response = await axios.get(`http://localhost:3000/course/${courseId}`);
+        const response = await axios.get(`${backendUrl}/course/${courseId}`);
         this.courseDetails = response.data.course;
         console.log(this.courseDetails.courseId);
       } catch (error) {

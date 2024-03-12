@@ -90,6 +90,8 @@
 import Navbar from "../components/Navbar.vue";
 import CourseCard from "../components/ToCourseCard.vue";
 
+
+
 export default {
   components: {
     navbar: Navbar,

@@ -18,16 +18,20 @@
           </div>
           <div class="flex justify-center items-center my-3">
             <div class="hidden lg:flex justify-center">
-              <img
-                src="https://cdn.discordapp.com/attachments/914474333273989140/1211369005814644768/image.png?ex=65edf24d&is=65db7d4d&hm=3651b4838ac07e4dfd09efaca6075f045a5577e2ce6f86e2c2663052ddc26848&"
+              <img  
+                src="https://edupulse-bucket.s3.amazonaws.com/logo.png"
                 class="w-3/4"
               />
             </div>
           </div>
           <div class="flex justify-center items-center my-3">
             <div class="hidden lg:mt-0 lg:flex justify-center">
-              <img
-                src="https://i.pinimg.com/736x/b1/7e/c8/b17ec85df0ccceef39bb881a3613f0c2.jpg"
+              <img v-if="userData && userData.user && userData.user.selectedGender === 'เพศชาย'"
+                src="https://www.svgrepo.com/show/382109/male-avatar-boy-face-man-user-7.svg"
+                class="w-40 h-40 rounded-full"
+              />
+              <img v-else
+                src="https://www.svgrepo.com/show/382099/female-avatar-girl-face-woman-user-2.svg"
                 class="w-40 h-40 rounded-full"
               />
             </div>
@@ -55,7 +59,7 @@
 
 <script>
 import Navbar from "../components/Navbar.vue";
-
+import  {backendUrl}  from '../port';
 export default {
   components: {
     Navbar: Navbar,
