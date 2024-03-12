@@ -328,6 +328,43 @@ app.get('/problems', async (req, res) => {
   }
 });
 
+// Add a new endpoint to handle adding course IDs to a user by user ID
+app.post('/addcourse/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { courseId } = req.body;
+
+    // Validate if courseId is provided
+    if (!courseId) {
+      return res.status(400).json({ error: 'Missing required field: courseId' });
+    }
+
+    // DynamoDB parameters to update the user's courseIds array
+    const params = {
+      TableName: 'user',
+      Key: {
+        userId,
+      },
+      UpdateExpression: 'SET #courseIds = list_append(if_not_exists(#courseIds, :empty_list), :courseId)',
+      ExpressionAttributeNames: {
+        '#courseIds': 'courseIds',
+      },
+      ExpressionAttributeValues: {
+        ':courseId': [courseId],
+        ':empty_list': [],
+      },
+      ReturnValues: 'UPDATED_NEW',
+    };
+
+    // Use DocumentClient's update method for updating the user's courseIds
+    const result = await dynamodb.update(params).promise();
+
+    res.status(200).json({ updatedCourseIds: result.Attributes.courseIds });
+  } catch (error) {
+    console.error('Error adding course to user:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 
 // Start the server
