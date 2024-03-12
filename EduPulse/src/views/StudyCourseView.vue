@@ -1,44 +1,45 @@
 <template>
-  <div>
-    <input type="file" @change="handleFileUpload">
-    <button @click="uploadVideo">Upload</button>
-
-    <!-- Display selected video -->
-    <video v-if="videoUrl" controls width="200" height="200">
-      <source :src="videoUrl" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+  <div id="app">
+    <Navbar />
+    <div class="container mx-auto flex justify-center items-center h-screen">
+      <div v-if="course" class="flex flex-col items-center">
+        <h2 class="text-xl font-semibold">{{ course.name }}</h2>
+        <video controls class="w-full max-w-lg">
+          <source :src="course.videoURL" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+    </div>
   </div>
+
 </template>
 
 <script>
+import Navbar from "../components/Navbar.vue";
+import axios from "axios";
+
 export default {
+  components: {
+    Navbar,
+  },
   data() {
     return {
-      videoFile: null,
-      videoUrl: null
+      course: null,
     };
   },
+  mounted() {
+    // Fetch data from the database using Axios
+    this.fetchCourseData();
+  },
   methods: {
-    handleFileUpload(event) {
-      this.videoFile = event.target.files[0];
-      this.videoUrl = URL.createObjectURL(this.videoFile); // Create object URL for the selected video file
-    },
-    async uploadVideo() {
-      if (!this.videoFile) {
-        // No file selected, do nothing
-        return;
+    async fetchCourseData() {
+      try {
+        const response = await axios.get("/api/course"); // Adjust the API endpoint according to your backend setup
+        this.course = response.data;
+      } catch (error) {
+        console.error("Error fetching course data:", error);
       }
-
-      const formData = new FormData();
-      formData.append('video', this.videoFile);
-
-      // Perform upload here
-    }
-  }
+    },
+  },
 };
 </script>
-
-<style>
-/* Add any additional styling here */
-</style>
