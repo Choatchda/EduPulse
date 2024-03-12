@@ -90,6 +90,13 @@ const router = createRouter({
       component: () => import('../views/ApprovePayment.vue')
     },
 
+    {
+  
+      path: '/buy',
+      name:  'BuyCourse',
+      component: () => import('../views/BuyCourseView.vue')
+    },
+
 
   
   ]
