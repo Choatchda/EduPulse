@@ -15,6 +15,7 @@
             :namecourse="course.courseName"
             :pricecourse="course.price"
             :numberstudent="course.numberstudent"
+            :courseId = "course.courseId"
           />
         </div>
       </div>

@@ -20,10 +20,10 @@ app.get('/', (req, res) => {
 });
  
 
-const AWS_ACCESS_KEY_ID = "ASIA4MTWMHLBTSMWXGGC"
+const AWS_ACCESS_KEY_ID = "ASIA4MTWMHLBYBLZ236P"
 
-const AWS_SECRET_ACCESS_KEY = "aE7Ufu52MDEly+DG4KaaYO44HIhNw3Ga7iyZRKVw"
-const AWS_SESSION_TOKEN=`FwoGZXIvYXdzEE0aDJsGvsXvOX5Wz9LfaCLFATqnlGKpCf+6kswMi3oJ9RPrDJnl7EK4J97w87okRSbIxH9BtPJCFe6qBLUmf8NAo2frzqAGIDOl6naa99h5AQD5mq/+3XKSepzzaruDgBRCsTvok9FFgPWooX5XErFcEuYHm9JrXPCAcMbMZ6kYhI+yw4UQtMBxCk65IBrEYXRBf23a/yvqA7GMcpYyi2EzY50u/sa8pdpBiuhzcTUqXoAJSBABl9cATBmEtPtz16HFCWDMyEMaxMPIkjYr9iHXZHepNor9KNqHwa8GMi0SnL1J1E0mVRMGJIgHPU2A8Zx9Kgjpgc41D3pmVUe0PE/rkKZMFG5LZ0yMXxs=`
+const AWS_SECRET_ACCESS_KEY = "XBbiddxRMfJ5oSuPZdpO7Eocrob1GUNMyCQqcOLn"
+const AWS_SESSION_TOKEN=`FwoGZXIvYXdzEFEaDPM8ougmn0gDYGM3WCLFAWny4NGXsujnfot2L+NsHv4oRpQPLSb8LwdDh4DhEmCoFmZluCVCNLuoXHW1InkuzLc8kCbKG6WAroi+BXFHdwbyLBozsdnTNhOTDSgFQTfFJCpZK3kX6/6RjjHgNTwRh0Od3ss5qVqojhD/tRP9Vwavg5R8KafB0Y+n3whVjOJ/6uae2IyAbICkvMeuT++z711v02hUjdzpPslsieSa+Y1HdpKYS9ZtikBPK+J7yENP506LUx1qcG290VggxyfNXmZQwgKBKN34wa8GMi3ZU4xei5UugLynCOCX85BkpslsNwZAPb5wnAj8jXK2nPNGUkg2sMFX4aKNeWs=`
 
 const accessKeyId  = AWS_ACCESS_KEY_ID
 const secretAccessKey = AWS_SECRET_ACCESS_KEY
@@ -367,38 +367,38 @@ app.post('/addcourse/:userId', async (req, res) => {
   }
 });
 
-app.get('/detailcourse/:courseId', async (req, res) => {
-  const { courseId } = req.params;
-  console.log(req.params); // Logging the courseId to the console for debugging
-
-  // DynamoDB parameters to get course details by courseId
-  const params = {
-    TableName: 'course', // Assuming tablecourse is defined elsewhere in your code
-    Key: {
-      courseId: courseId,
-    },
-  };
-
+app.get('/course/:courseId', async (req, res) => {
   try {
-    // Use DynamoDB's get method to retrieve course details by courseId
-    const result = await dynamodb.get(params).promise();
-    console.log(result);
-    if (!result.Item) {
-      return res.status(404).json({ message: 'Course not found' });
+    const { courseId} = req.params;
+
+    console.log('Fetching course details for courseId:', courseId);
+
+    // Define DynamoDB parameters
+    const params = {
+      TableName: 'course', // Update with your DynamoDB table name
+      Key: {
+        courseId,
+      },
+    };
+
+    // Use DocumentClient's get method to retrieve user details by user ID
+    const courseData = await dynamodb.get(params).promise();
+
+    console.log('DynamoDB response:', courseData);
+
+    if (!courseData.Item) {
+      return res.status(404).json({ message: 'courseData not found' });
     }
 
     // Convert DynamoDB item to a plain JavaScript object
-    const courseDetails = AWS.DynamoDB.Converter.unmarshall(result.Item);
+ 
 
-    // Send the course details as JSON response
-    console.log(courseDetails);
-    
+    res.status(201).json({ course: courseData.Item });
   } catch (error) {
-    console.error('Error retrieving course details:', error);
+    console.error('Error retrieving user details:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
 
 
 // Start the server

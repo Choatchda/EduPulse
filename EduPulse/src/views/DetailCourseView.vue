@@ -11,29 +11,62 @@
           />
         </div>
         <div class="basis-1/2 justify-center flex">
-            <BuyCourseCard nameeachcourse="คอร์สภาษาไทย" priceeachcourse="1500" username="Choatchda"  @buy-success="handleBuySuccess" />
+          <BuyCourseCard
+          :houreachcourse="courseDetails.hour" 
+            :nameeachcourse="courseDetails.courseName" 
+            :priceeachcourse="courseDetails.price" 
+            :username="courseDetails.teacherName" 
+            @buy-success="handleBuySuccess"
+          />
         </div>
       </div>
       <div class="bg-white rounded-lg shadow-lg w-1/2 p-4 m-4 grid gap-3">
         <h2 class="font-semibold text-xl">รายละเอียดคอร์ส</h2>
-        <p class="text-base font-medium">คอร์ส : </p>
-        <p class="text-base font-medium">กลุ่มวิชา : ม.ปลาย แข่งขัน</p>
-        <p class="text-base font-medium">ครูผู้สอน : </p>
-        <p class="text-base font-medium">คอร์สนี้เหมาะสำหรับ :  </p>
-        <p class="text-base font-medium">จำนวนหนังสือเรียน : 1 เล่ม</p>
-        <p class="text-base font-medium">วันที่เริ่มเรียน : 06/01/2024 เป็นต้นไป</p>
+        <p class="text-base font-medium">คอร์ส : {{ courseDetails.courseName }}</p>
+        <p class="text-base font-medium">กลุ่มวิชา : {{ courseDetails.subject }}</p>
+        <p class="text-base font-medium">ครูผู้สอน : {{ courseDetails.teacherName }}</p>
+        <p class="text-base font-medium">คอร์สนี้เหมาะสำหรับ : นักเรียนทั่วไป </p>
+        <p class="text-base font-medium">จำนวนหนังสือเรียน : 0 เล่ม</p>
+       
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 import Navbar from "../components/Navbar.vue";
 import BuyCourseCard from "../components/BuyCourseCard.vue";
+
+
 export default {
   components: {
     Navbar: Navbar,
     BuyCourseCard: BuyCourseCard,
+  },
+  data() {
+    return {
+      courseDetails: {},
+    };
+  },
+  mounted() {
+    this.fetchCourseDetails();
+  },
+  methods: {
+    async fetchCourseDetails() {
+      const { courseId } = this.$route.params;
+
+      try {
+        const response = await axios.get(`http://localhost:3000/course/${courseId}`);
+        this.courseDetails = response.data.course;
+        console.log(this.courseDetails.courseId);
+      } catch (error) {
+        console.error('Error fetching course details:', error);
+      }
+    },
+    handleBuySuccess() {
+      // Handle buy success event if needed
+    },
   },
 };
 </script>

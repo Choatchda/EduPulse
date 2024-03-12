@@ -7,11 +7,11 @@
       <div class="flex flex-row justify-between">
         <div class="items-center justify-center text-center">
           <font-awesome-icon icon="fa-regular fa-clock" class="fa-2xl" />
-          <p class="max-w-2xl font-light text-sm">ความยาววิดีโอ</p>
+          <p class="max-w-2xl font-light text-sm">ความยาววิดีโอ : 0</p>
         </div>
         <div class="items-center justify-center text-center">
             <font-awesome-icon icon="fa-solid fa-graduation-cap" class="fa-2xl" />
-          <p class="max-w-2xl font-light text-sm">ชั่วโมงเรียน</p>
+          <p class="max-w-2xl font-light text-sm">ชั่วโมงเรียน : {{ houreachcourse }}</p>
         </div>
         <div class="items-center justify-center text-center">
           <font-awesome-icon icon="fa-regular fa-calendar-days" class="fa-2xl" />
@@ -85,6 +85,7 @@ import axios from 'axios';
 const { emit } = defineEmits(['buy-success', 'update:username', 'update:tel', 'update:image']);
 
 defineProps({
+  houreachcourse: String,
   nameeachcourse: String,
   priceeachcourse: Number,
   tel: String,

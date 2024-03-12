@@ -3,15 +3,14 @@
     <Navbar />
     <div class="container mx-auto flex justify-center items-center h-screen">
       <div v-if="course" class="flex flex-col items-center">
-        <h2 class="text-xl font-semibold">{{ course.name }}</h2>
-        <video controls class="w-full max-w-lg">
-          <source src="https://edupulse-bucket.s3.amazonaws.com/courses/1710252730181-y2meta.com-Minute+Physics_+What+is+Gravity_-(480p).mp4" type="video/mp4" />
+        <h1 class="text-xl font-semibold">{{ course.courseName }}</h1>
+        <video controls class="w-full h-full">
+          <source :src="course.videoURL" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -34,8 +33,14 @@ export default {
   methods: {
     async fetchCourseData() {
       try {
-        const response = await axios.get("/api/course"); // Adjust the API endpoint according to your backend setup
-        this.course = response.data;
+        // Assuming courseId is a route parameter
+        const courseId = this.$route.params.courseId;
+
+        // Adjust the API endpoint and pass courseId as a parameter
+        const response = await axios.get(`http://localhost:3000/course/${courseId}`);
+        
+        this.course = response.data.course;
+        console.log(this.course);
       } catch (error) {
         console.error("Error fetching course data:", error);
       }
