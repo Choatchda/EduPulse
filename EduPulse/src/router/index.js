@@ -35,7 +35,7 @@ const router = createRouter({
       component: () => import('../views/MyCourse.vue')
     },
     {
-      path: '/detailcourse',
+      path: '/detailcourse/:courseId',
       name: 'detailcourse',
       component: () => import('../views/DetailCourseView.vue')
     },

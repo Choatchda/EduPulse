@@ -93,7 +93,7 @@ app.post('/course', upload.fields([{ name: 'imageFile', maxCount: 1 }, { name: '
 
   console.log(req.body);
 
-  const { courseName, hour, teacherName, subject } = req.body;
+  const { courseName, hour, teacherName, subject, price } = req.body;
   const imageFile = req.files['imageFile'] ? req.files['imageFile'][0].location : null;
   const videoFile = req.files['videoFile'] ? req.files['videoFile'][0].location : null;
 
@@ -110,6 +110,7 @@ app.post('/course', upload.fields([{ name: 'imageFile', maxCount: 1 }, { name: '
       courseName,
       hour,
       teacherName,
+      price,
       imageURL: imageFile,
       videoURL: videoFile,
       subject: subject,
@@ -365,6 +366,39 @@ app.post('/addcourse/:userId', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+app.get('/detailcourse/:courseId', async (req, res) => {
+  const { courseId } = req.params;
+  console.log(req.params); // Logging the courseId to the console for debugging
+
+  // DynamoDB parameters to get course details by courseId
+  const params = {
+    TableName: 'course', // Assuming tablecourse is defined elsewhere in your code
+    Key: {
+      courseId: courseId,
+    },
+  };
+
+  try {
+    // Use DynamoDB's get method to retrieve course details by courseId
+    const result = await dynamodb.get(params).promise();
+    console.log(result);
+    if (!result.Item) {
+      return res.status(404).json({ message: 'Course not found' });
+    }
+
+    // Convert DynamoDB item to a plain JavaScript object
+    const courseDetails = AWS.DynamoDB.Converter.unmarshall(result.Item);
+
+    // Send the course details as JSON response
+    console.log(courseDetails);
+    
+  } catch (error) {
+    console.error('Error retrieving course details:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 
 // Start the server

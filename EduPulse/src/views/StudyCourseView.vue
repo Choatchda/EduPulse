@@ -5,7 +5,7 @@
       <div v-if="course" class="flex flex-col items-center">
         <h2 class="text-xl font-semibold">{{ course.name }}</h2>
         <video controls class="w-full max-w-lg">
-          <source :src="course.videoURL" type="video/mp4" />
+          <source src="https://edupulse-bucket.s3.amazonaws.com/courses/1710252730181-y2meta.com-Minute+Physics_+What+is+Gravity_-(480p).mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </div>

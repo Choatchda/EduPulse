@@ -20,8 +20,8 @@
           <div class="flex flex-shrink-0 items-center">
             <img
               class="h-8 w-auto"
-              src="https://cdn.discordapp.com/attachments/914474333273989140/1211369005814644768/image.png?ex=65edf24d&is=65db7d4d&hm=3651b4838ac07e4dfd09efaca6075f045a5577e2ce6f86e2c2663052ddc26848&"
-              alt="Your Company"
+              src="https://edupulse-bucket.s3.amazonaws.com/logo.png"
+              alt="Eduplus"
             />
           </div>
           

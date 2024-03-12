@@ -8,13 +8,13 @@
       <div class="basis-9/12">
         <div class="flex flex-wrap justify-center">
           <CourseCard
-            v-for="index in 6"
+            v-for="(course, index) in courses"
             :key="index"
-            imagecourse="https://tierragamer.com/wp-content/uploads/2023/03/Mashle2tierragamer.webp"
-            numbercourse="6"
-            namecourse="'djsjda'"
-            pricecourse="9"
-            numberstudent="6"
+            :imagecourse="course.imageURL"
+            :numbercourse="course.numbercourse"
+            :namecourse="course.courseName"
+            :pricecourse="course.price"
+            :numberstudent="course.numberstudent"
           />
         </div>
       </div>
@@ -23,8 +23,21 @@
 </template>
 
 <script setup>
-import TheWelcome from "../components/TheWelcome.vue";
 import Navbar from "../components/Navbar.vue";
 import CourseCard from "../components/ToCourseCard.vue";
 import SearchBox from "../components/SearchBox.vue";
+import { ref, onMounted } from "vue";
+import axios from "axios";
+
+const courses = ref([]);
+
+onMounted(async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/course");
+    console.log(response.data.data);
+    courses.value = response.data.data // Replace with your actual backend endpoint
+  } catch (error) {
+    console.error("Error fetching courses:", error);
+  }
+});
 </script>
