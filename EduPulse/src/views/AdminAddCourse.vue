@@ -133,7 +133,7 @@
 
           <div class="flex justify-center">
             <button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-32"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-32" @click = "addCourse"
             >
               เพิ่ม
             </button>
@@ -145,6 +145,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2';
 import Navbar from "../components/Navbar.vue";
 export default {
   components: {
@@ -156,65 +157,74 @@ export default {
       imageUrl: null,
       videoFileName: null,
       videoUrl: null,
+      courseName: '',
+      teacherName: '',
+      subject: '',
+      price: '',
+      courseDuration: ''
     };
   },
   methods: {
+    async addCourse() {
+      const formData = new FormData();
+      formData.append('courseName', this.courseName);
+      formData.append('teacherName', this.teacherName);
+      formData.append('subject', this.subject);
+      formData.append('price', this.price);
+      formData.append('hour', this.courseDuration);
+      formData.append('imageFile', this.imageFile);
+      formData.append('videoFile', this.videoFile);
+
+      try {
+        const response = await fetch('/course', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (response.ok) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: 'Course added successfully'
+          });
+        } else {
+          throw new Error('Failed to add course');
+        }
+      } catch (error) {
+        console.error('Error adding course:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to add course'
+        });
+      }
+    },
     handleImageUpload(event) {
-  
-  const file = event.target.files[0];
-
-  // Check if a file is selected
-  if (!file) {
-    // Reset image-related data
-    this.imageFile = null;
-    this.imageFileName = null;
-    this.imageUrl = null;
-    // Show error message or perform any necessary action
-    return;
+      const file = event.target.files[0];
+      if (file) {
+        this.imageFileName = file.name;
+        this.imageUrl = URL.createObjectURL(file);
+        this.imageFile = file;
+      }
+    },
+    handleVideoUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.videoFileName = file.name;
+        this.videoUrl = URL.createObjectURL(file);
+        this.videoFile = file;
+      }
+    },
+    clearImage() {
+      this.imageFileName = null;
+      this.imageUrl = null;
+      this.imageFile = null;
+    },
+    clearVideo() {
+      this.videoFileName = null;
+      this.videoUrl = null;
+      this.videoFile = null;
+    }
   }
-
-  
-
-  // Set image-related data
-  this.imageFile = file;
-  this.imageFileName = file.name;
-  this.imageUrl = URL.createObjectURL(file);
-},
-   handleVideoUpload(event) {
-
-  const file = event.target.files[0];
-
-  // Check if a file is selected
-  if (!file) {
-    // Reset video-related data
-    this.videoFile = null;
-    this.videoFileName = null;
-    this.videoUrl = null;
-    // Show error message or perform any necessary action
-    return;
-  }
-
-  
-
-  // Set video-related data
-  this.videoFile = file;
-  this.videoFileName = file.name;
-
-  // For video files (mov), set videoUrl to the object URL
-  this.videoUrl = URL.createObjectURL(file);
-},
-clearImage() {
-    this.imageFile = null;
-    this.imageFileName = null;
-    this.imageUrl = null;
-  },
-
-  clearVideo() {
-    this.videoFile = null;
-    this.videoFileName = null;
-    this.videoUrl = null;
-  }
-}
-
 };
 </script>
