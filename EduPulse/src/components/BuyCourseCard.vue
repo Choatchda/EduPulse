@@ -130,6 +130,8 @@
           />
         </div>
         <div class="mb-4">
+        <h1> เลขบัญชี : 148-3-85387-0 </h1>
+        <h1> ชื่อ : นายโชตชฎา อุปโยคิน </h1>
           <label class="block text-sm font-medium text-gray-600"
             >อัปโหลดภาพ</label
           >
