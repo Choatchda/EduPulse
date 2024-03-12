@@ -36,14 +36,22 @@
 </template>
 
 <script setup>
-import Navbar from "../components/Navbar.vue";
 import { ref } from 'vue';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const courseName = ref('');
 const coursePrice = ref('');
 const tel = ref('');
 const image = ref('');
+
+const formatDate = () => {
+  const currentDate = new Date();
+  const day = currentDate.getDate().toString().padStart(2, '0');
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+  const year = currentDate.getFullYear();
+  return `${day}/${month}/${year}`;
+};
 
 const handleImageUpload = (event) => {
   const file = event.target.files[0];
@@ -62,14 +70,14 @@ const clearImage = () => {
 
 const submitForm = () => {
   const formData = new FormData();
-  formData.append('courseName', courseName);
-  formData.append('coursePrice', coursePrice);
-  formData.append('tel', tel);
-  formData.append('state', รออนุมัติ);
-  formData.append('date', )
+  formData.append('courseName', courseName.value);
+  formData.append('coursePrice', coursePrice.value);
+  formData.append('tel', tel.value);
+  formData.append('state', 'รออนุมัติ');
+  formData.append('date', formatDate());
 
-  if (image) {
-    formData.append('image', image);
+  if (image.value) {
+    formData.append('image', image.value);
   }
 
   axios.post('/api/buy-course', formData, {
@@ -78,13 +86,24 @@ const submitForm = () => {
     },
   }).then(response => {
     // Handle success
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: 'Your request has been submitted successfully.',
+    });
     console.log(response.data);
   }).catch(error => {
     // Handle error
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'An error occurred while processing your request.',
+    });
     console.error(error);
   });
 };
 </script>
+
 
 <style>
 /* Add your CSS styles here if needed */
