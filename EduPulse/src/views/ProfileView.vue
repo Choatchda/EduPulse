@@ -44,15 +44,15 @@
                 <!-- Replace static content with dynamic data bindings -->
 
 <!-- ... other parts of the template ... -->
-<h6 class="text-lg font-semibold mb-4">ชื่อ :  โชตชฎา </h6> {{ userData && userData.user && userData.user.first_name }}
-    <h6 class="text-lg font-semibold mb-4">นามสกุล :  อุปโยคิน </h6> {{ userData && userData.user && userData.user.last_name }}
-    <h6 class="text-lg font-semibold mb-4">อีเมล :  ppchoatchda@gmail.com</h6> {{ userData && userData.user && userData.user.email }}
+<h6 class="text-lg font-semibold mb-4">ชื่อ : {{ userData && userData.user && userData.user.first_name }}  </h6> 
+    <h6 class="text-lg font-semibold mb-4">นามสกุล :  {{ userData && userData.user && userData.user.last_name }} </h6>
+    <h6 class="text-lg font-semibold mb-4">อีเมล :   {{ userData && userData.user && userData.user.email }} </h6>
 
 
             </div>
           </div>
         </div>
-      </section>
+      </section> 
     </div>
   </div>
 </template>

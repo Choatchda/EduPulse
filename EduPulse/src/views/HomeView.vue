@@ -20,12 +20,9 @@
             Education is the passport to the future, for tomorrow belongs to
             those who prepare for it today.
           </p>
-          <a
-            href="#"
-            class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white rounded-lg focus:ring-4 focus:ring-gray-100 bg-black"
-          >
-            Explore Course
-          </a>
+          <a href="#section-555555" @click.prevent="scrollToSection" class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white rounded-lg focus:ring-4 focus:ring-gray-100 bg-black">
+  Explore Course
+</a>
         </div>
         <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
           <img
@@ -35,7 +32,7 @@
         </div>
       </div>
     </section>
-    <div class="m-10">
+    <div class="m-10" id = '555555'>
       <section class="flex flex-row items-center">
         <div
           class="hidden lg:mt-0 lg:col-span-5 lg:flex basis-1/2 justify-center"
@@ -63,7 +60,7 @@
           </div>
         </div>
       </section>
-      <section class="justify-center items-center mt-10">
+      <section class="justify-center items-center mt-10"  id="6666">
           <h5 class="text-4xl font-bold text-neutral-800  text-center">
             Our Explore Course
           </h5>
@@ -71,16 +68,17 @@
             With these programs, you can build valuable skills, earn career credentials, and make progress toward a degree before you even enroll. 
           </p>
           <div class="flex flex-wrap justify-center items-center">
-            <CourseCard 
-              v-for="index in 3"
-              :key="index"
-              imagecourse="https://tierragamer.com/wp-content/uploads/2023/03/Mashle2tierragamer.webp"
-              numbercourse=6
-              namecourse="'djsjda'"
-              pricecourse=9
-              numberstudent=6
-            />
-          </div>
+    <CourseCard
+      v-for="course in courses.data"
+      :key="course.id"
+      :imagecourse="course.imageURL"
+      :numbercourse="course.courseName"
+      :namecourse="course.name"
+      :pricecourse="course.price"
+      :numberstudent="course.students"
+      :courseId="course.courseId"
+    />
+  </div>
       </section>
     </div>
   </div>
@@ -89,13 +87,41 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import CourseCard from "../components/ToCourseCard.vue";
-
-
-
+import axios from "axios";
+import  {backendUrl}  from '../port';
 export default {
   components: {
     navbar: Navbar,
     CourseCard: CourseCard,
   },
+  data() {
+    return {
+      courses: [],
+    };
+  },
+  mounted() {
+    // Fetch courses when the component is mounted
+    this.fetchCourses();
+  },
+  methods: {
+    async fetchCourses() {
+      try {
+        // Make a request to your backend API to fetch courses
+        const response = await axios.get(`${backendUrl}/course?limit=3`);
+        this.courses = response.data;
+        console.log(this.courses.data[0]);
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    },
+  },
+  scrollToSection() {
+      // Scroll to the section with the ID "6666" when Explore Course is clicked
+      const section = document.getElementById("6666");
+
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    },
 };
 </script>

@@ -12,6 +12,7 @@
         </div>
         <div class="basis-1/2 justify-center flex">
           <BuyCourseCard
+          :courseId="courseDetails.courseId"
           :houreachcourse="courseDetails.hour" 
             :nameeachcourse="courseDetails.courseName" 
             :priceeachcourse="courseDetails.price" 

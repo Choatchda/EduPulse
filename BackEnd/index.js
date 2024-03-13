@@ -20,10 +20,10 @@ app.get('/', (req, res) => {
 });
  
 
-const AWS_ACCESS_KEY_ID = "ASIA4MTWMHLBYBLZ236P"
+const AWS_ACCESS_KEY_ID = "ASIA4MTWMHLB333C2MN7"
 
-const AWS_SECRET_ACCESS_KEY = "XBbiddxRMfJ5oSuPZdpO7Eocrob1GUNMyCQqcOLn"
-const AWS_SESSION_TOKEN=`FwoGZXIvYXdzEFEaDPM8ougmn0gDYGM3WCLFAWny4NGXsujnfot2L+NsHv4oRpQPLSb8LwdDh4DhEmCoFmZluCVCNLuoXHW1InkuzLc8kCbKG6WAroi+BXFHdwbyLBozsdnTNhOTDSgFQTfFJCpZK3kX6/6RjjHgNTwRh0Od3ss5qVqojhD/tRP9Vwavg5R8KafB0Y+n3whVjOJ/6uae2IyAbICkvMeuT++z711v02hUjdzpPslsieSa+Y1HdpKYS9ZtikBPK+J7yENP506LUx1qcG290VggxyfNXmZQwgKBKN34wa8GMi3ZU4xei5UugLynCOCX85BkpslsNwZAPb5wnAj8jXK2nPNGUkg2sMFX4aKNeWs=`
+const AWS_SECRET_ACCESS_KEY = "y7cJfwwUrv7O0egwlTShD2e5fVP4oSw0eVJYfi9V"
+const AWS_SESSION_TOKEN=`FwoGZXIvYXdzEGAaDKWk9kxyteYoiTF65iLFAW/L0ZmasnKtMbfKkd1pYAg2du+SUpzoSU5pGxHTD84Wn/6tPWgB5nwR0iCu6M1QsqPQ/2vIKfAeuMuUdAiaMD7hcWH6lQXB3X1rtg/Uq8ODdhaS3aitscPVndiMoqOBi/zWN1w2qyk2w8ztxaMXYnv6AmkjyylfTDSLlt1SMiUHeZKYp3dbXrjgSqhwYkfmLh5EHm56zc+ieT5NZsp6xCCRYGF6YFuD7z/bVkUOkqYQNcA/pBCjLLtCOsw8yEZAuMP2ZHaXKPCExa8GMi0ThRK615VVomvG8Hr8ywwLiXAGxU0DUvsPIsEYIjeZey/g/xC7wFkhSMdCzZ4=`
 
 const accessKeyId  = AWS_ACCESS_KEY_ID
 const secretAccessKey = AWS_SECRET_ACCESS_KEY
@@ -65,6 +65,7 @@ const dynamodb1 = new AWS.DynamoDB()
 app.get('/course', async (req, res) => {
   const params = {
     TableName: 'course',
+    Limit: req.query.limit, // Limit the result to three items
   };
 
   try {
@@ -82,8 +83,6 @@ app.get('/course', async (req, res) => {
     }
   }
 });
-
-
 
 // Use DynamoDB instead of DocumentClient
 
@@ -453,6 +452,141 @@ app.post('/updateprofile/:userId', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+ 
+// Add a new endpoint to handle posting payment with a slip image
+app.post('/payment', upload.single('slipImage'), async (req, res) => {
+  try {
+    // Generate a unique paymentId
+    const paymentId = uuidv4();
+
+    console.log(req.body);
+
+    const { name, price, tel, state, userId, courseId, date } = req.body;
+
+    // Convert date string to a Date object
+    const parsedDate = new Date(date);
+
+    // Format the date as 'dd/mm/yyyy'
+    const formattedDate = parsedDate.toLocaleDateString('en-GB');
+
+    const slipImage = req.file ? req.file.location : null;
+
+    // Validation: Check if required fields are provided
+    if (!name || !price || !tel || !state || !userId || !courseId || !formattedDate) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    // DynamoDB parameters
+    const params = {
+      TableName: 'payment',
+      Item: {
+        paymentId,
+        name,
+        price,
+        tel,
+        state,
+        userId,
+        courseId,
+        date: formattedDate,
+        slipImageURL: slipImage,
+      },
+    };
+
+    // Use DynamoDB's put method for item insertion
+    await dynamodb.put(params).promise();
+
+    // Include the S3 link in the response
+    const response = {
+      message: 'Payment added successfully',
+      slipImageURL: slipImage, // S3 link
+    };
+
+    res.status(201).json(response);
+  } catch (error) {
+    console.error('Error adding payment to DynamoDB:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+app.get('/payment/:paymentId', async (req, res) => {
+  try {
+    const { paymentId } = req.params;
+
+    // DynamoDB parameters
+    const params = {
+      TableName: 'payment',
+      Key: {
+        paymentId,
+      },
+    };
+
+    // Use DynamoDB's get method to retrieve payment details by payment ID
+    const paymentData = await dynamodb.get(params).promise();
+
+    if (!paymentData.Item) {
+      return res.status(404).json({ message: 'Payment not found' });
+    }
+
+    res.status(200).json({ payment: paymentData.Item });
+  } catch (error) {
+    console.error('Error retrieving payment details:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+app.get('/payments', async (req, res) => {
+  try {
+    // DynamoDB parameters
+    const params = {
+      TableName: 'payment',
+    };
+
+    // Use DynamoDB's scan method to retrieve all payment data
+    const paymentData = await dynamodb.scan(params).promise();
+
+    if (!paymentData.Items || paymentData.Items.length === 0) {
+      return res.status(404).json({ message: 'No payments found' });
+    }
+
+    res.status(200).json({ payments: paymentData.Items });
+  } catch (error) {
+    console.error('Error retrieving payment details:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.put('/payments/:paymentId', async (req, res) => {
+  try {
+    const { paymentId } = req.params;
+    const { state } = req.body; // Change the field name to 'state'
+
+    // DynamoDB parameters
+    const params = {
+      TableName: 'payment',
+      Key: {
+        paymentId,
+      },
+      UpdateExpression: 'SET #s = :state', // Use expression attribute names for reserved words
+      ExpressionAttributeNames: {
+        '#s': 'state',
+      },
+      ExpressionAttributeValues: {
+        ':state': state,
+      },
+      ReturnValues: 'ALL_NEW', // Return the updated item
+    };
+
+    // Use DynamoDB's update method to update the state
+    const updatedPayment = await dynamodb.update(params).promise();
+
+    res.status(200).json({ payment: updatedPayment.Attributes });
+  } catch (error) {
+    console.error('Error updating payment state:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 
 
 

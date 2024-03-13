@@ -10,7 +10,7 @@
     <div class="p-4">
       <div class="text-gray-600 flex align-middle items-center mb-2">
         <font-awesome-icon icon="fa-regular fa-circle-play" />
-        <p class="ml-3">{{numbercourse}} lessons</p>
+        <p class="ml-3">{{numbercourse}}</p>
       </div>
       <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900">
         {{namecourse}}

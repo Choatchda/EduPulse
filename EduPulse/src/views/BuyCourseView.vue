@@ -7,11 +7,11 @@
       <form @submit.prevent="submitForm">
         <div class="mb-4">
           <label for="courseName" class="block text-sm font-medium text-gray-600">ชื่อคอร์ส</label>
-          <input v-model="courseName" type="text" id="courseName" class="mt-1 p-2 border rounded-md w-full" required />
+          <input v-model="courseName" type="text" id="courseName":readonly="!isFormEditable" class="mt-1 p-2 border rounded-md w-full" required />
         </div>
         <div class="mb-4">
           <label for="coursePrice" class="block text-sm font-medium text-gray-600">ราคา</label>
-          <input v-model="coursePrice" type="number" id="coursePrice" class="mt-1 p-2 border rounded-md w-full" required />
+          <input v-model="coursePrice" type="number" id="coursePrice" :readonly="!isFormEditable" class="mt-1 p-2 border rounded-md w-full" required />
         </div>
         <div class="mb-4">
           <label for="tel" class="block text-sm font-medium text-gray-600">โทรศัพท์</label>
@@ -36,9 +36,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useRoute } from 'vue-router';
+import  {backendUrl}  from '../port';
+
+const route = useRoute();
 
 const courseName = ref('');
 const coursePrice = ref('');
@@ -56,11 +60,7 @@ const formatDate = () => {
 const handleImageUpload = (event) => {
   const file = event.target.files[0];
   if (file) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      image.value = reader.result;
-    };
-    reader.readAsDataURL(file);
+    image.value = file; // Store the file directly, not as a data URL
   }
 };
 
@@ -69,22 +69,31 @@ const clearImage = () => {
 };
 
 const submitForm = () => {
+  const courseId = route.params.courseId; // Get courseId from URL params
+
+  // Retrieve UserId from local storage
+  const userId = localStorage.getItem('userId');
+
   const formData = new FormData();
-  formData.append('courseName', courseName.value);
-  formData.append('coursePrice', coursePrice.value);
+  formData.append('name', courseName.value);
+  formData.append('price', coursePrice.value);
   formData.append('tel', tel.value);
   formData.append('state', 'รออนุมัติ');
-  formData.append('date', formatDate());
+  formData.append('userId', userId);
+  formData.append('courseId', courseId);
+  formData.append('date', new Date())
 
-  if (image.value) {
-    formData.append('image', image.value);
+  if (image.value instanceof File) {
+    formData.append('slipImage', image.value);
   }
 
-  axios.post('/api/buy-course', formData, {
+  axios.post(`${backendUrl}/payment`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
   }).then(response => {
+    axios.post(`${backendUrl}/addcourse/${userId}`, { courseId });
+    
     // Handle success
     Swal.fire({
       icon: 'success',
@@ -102,6 +111,23 @@ const submitForm = () => {
     console.error(error);
   });
 };
+
+// Fetch course details based on courseId
+onMounted(async () => {
+  const courseId = route.params.courseId;
+  try {
+    const courseResponse = await axios.get(`${backendUrl}/course/${courseId}`);
+    const course = courseResponse.data.course;
+    console.log(course);
+    courseName.value = course.courseName; // Set the course details in your form
+    coursePrice.value = course.price;
+    ;
+    // Set other course details as needed
+  } catch (error) {
+    console.error('Error fetching course details:', error);
+  }
+});
+
 </script>
 
 

@@ -172,7 +172,7 @@ const loggedInNavigation = [
   { name: "หน้าหลัก", href: "/", current: false },
   { name: "เพิ่มคอร์สเรียน", href: "/Addcourse", current: false },
   { name: "ปัญหา", href: "/problem", current: false },
-  { name: "การอนุมัติ", href: "/approval", current: false },
+  { name: "การอนุมัติ", href: "/approve", current: false },
 ];
 
 let userId = localStorage.getItem('userId'); // ให้ตัวแปรนี้เก็บ user id ที่ได้จากการล็อกอิน

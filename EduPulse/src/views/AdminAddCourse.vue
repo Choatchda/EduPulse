@@ -45,13 +45,14 @@
     <label for="price" class="text-sm font-medium leading-6 text-gray-900">ราคา:</label>
     <input v-model="price" type="text" id="price" name="price" class="w-48 h-12 bg-slate-50 border-0 rounded-2xl shadow-sm ring-1 ring-inset ring-gray-400 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="" />
   </div>
-</div>
-
-<!-- Form Grid 3 -->
-<div class="px-11 ml-8 flex-col mb-6 flex item-center w-1/2">
+  <div class="px-11  flex-col  flex item-center w-1/2">
   <label for="courseDuration" class="text-sm font-medium leading-6 text-gray-900">อายุคอร์สเรียน:</label>
   <input v-model="hour" type="number" id="courseDuration" name="courseDuration" class="w-48 h-12 bg-slate-50 border-0 rounded-2xl shadow-sm ring-1 ring-inset ring-gray-400 py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="" />
 </div>
+</div>
+
+<!-- Form Grid 3 -->
+
 
           <!-- Image upload section -->
       
